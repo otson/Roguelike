@@ -31,9 +31,9 @@ public class ContentPanel extends JPanel implements KeyListener{
     private int MAP_COLUMNS = 150;
     private final Color TEXT_COLOR = Color.WHITE;
     private final Color BACKGROUND_COLOR = Color.BLACK;
-    
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);
-    private MapCreator mapCreator;
+    private MapCreator mapCreator = new MapCreator(MAP_ROWS, MAP_COLUMNS);
+    private CreatureFactory creatureFactory;
     private JPanel mapPanel;
     private Messages messages;
     private Stats stats;
@@ -41,33 +41,37 @@ public class ContentPanel extends JPanel implements KeyListener{
     
     
     public ContentPanel(){
-        this.addKeyListener(this);
-        this.setFocusable(true);
-        
         initStats();
         initMessages();
-        
-        mapCreator = new MapCreator(MAP_ROWS, MAP_COLUMNS);
-        player = new Player(mapCreator.getTileMap(), messages);
-        player.addToMap();
+        addPlayer();
+        addContent();
+        creatureFactory = new CreatureFactory(mapCreator.getTileMap(), player);
+        displayInitialMap();
+    }     
 
-        
-        
-        this.setLayout(new BorderLayout());
-        GridLayout grid = new GridLayout(MAP_ROWS, MAP_COLUMNS);
-        mapPanel = new JPanel(grid);
-        mapPanel.setBorder(null);
+    private void addPlayer() {
+        player = new Player(mapCreator.getTileMap(), player, messages);
+    }
 
-        this.add(mapPanel, BorderLayout.CENTER);
-        this.add(statsArea, BorderLayout.SOUTH);
-        this.add(messageArea, BorderLayout.NORTH);
-        
+    private void displayInitialMap() {
         Tile[][] temp = mapCreator.getTileMap();
         for (Tile[] temp1 : temp) {
             for (Tile temp11 : temp1) {
                 mapPanel.add(temp11.getText());
             }
         }
+    }
+
+    private void addContent() {
+        this.addKeyListener(this);
+        this.setFocusable(true);
+        this.setLayout(new BorderLayout());
+        GridLayout grid = new GridLayout(MAP_ROWS, MAP_COLUMNS);
+        mapPanel = new JPanel(grid);
+        mapPanel.setBorder(null);
+        this.add(mapPanel, BorderLayout.CENTER);
+        this.add(statsArea, BorderLayout.SOUTH);
+        this.add(messageArea, BorderLayout.NORTH);
     }
 
     private void initMessages() {
@@ -105,7 +109,6 @@ public class ContentPanel extends JPanel implements KeyListener{
                 else{
                     player.move(-1, -1);
                 }
-                player.action(); 
                 break;
             case KeyEvent.VK_NUMPAD8: 
                 if(digEvent){
@@ -114,7 +117,6 @@ public class ContentPanel extends JPanel implements KeyListener{
                 }
                 else
                     player.move(-1,  0); 
-                player.action(); 
                 break;
             case KeyEvent.VK_NUMPAD9:
                 if(digEvent){
@@ -123,7 +125,6 @@ public class ContentPanel extends JPanel implements KeyListener{
                 }
                 else
                     player.move(-1,  1); 
-                player.action(); 
                 break;
             case KeyEvent.VK_NUMPAD4:
                 if(digEvent){
@@ -132,11 +133,9 @@ public class ContentPanel extends JPanel implements KeyListener{
                 }
                 else
                     player.move(0, -1); 
-                player.action(); 
                 break;
             case KeyEvent.VK_NUMPAD5: 
                 player.Wait(1); 
-                player.action(); 
                 break;
             case KeyEvent.VK_NUMPAD6: 
                 if(digEvent){
@@ -145,7 +144,6 @@ public class ContentPanel extends JPanel implements KeyListener{
                 }
                 else
                     player.move(0,  1); 
-                player.action(); 
                 break;
             case KeyEvent.VK_NUMPAD1:
                 if(digEvent){
@@ -154,7 +152,6 @@ public class ContentPanel extends JPanel implements KeyListener{
                 }
                 else
                     player.move(1, -1); 
-                player.action(); 
                 break;
             case KeyEvent.VK_NUMPAD2: 
                 if(digEvent){
@@ -163,7 +160,6 @@ public class ContentPanel extends JPanel implements KeyListener{
                 }
                 else
                     player.move(1, 0); 
-                player.action(); 
 
                 break;
             case KeyEvent.VK_NUMPAD3: 
@@ -173,7 +169,6 @@ public class ContentPanel extends JPanel implements KeyListener{
                 }
                 else
                     player.move(1, 1); 
-                player.action(); 
                 break;
             case KeyEvent.VK_D: 
                 messages.digDirection();
@@ -181,10 +176,25 @@ public class ContentPanel extends JPanel implements KeyListener{
                 player.action(); 
                 break;
         }
+        if(player.getMovesLeft() == 0){
+            turnEnd();
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    private void turnEnd() {
+        creatureFactory.ActMonsters();
+        turnStart();
+    }
+
+    private void turnStart() {
+        creatureFactory.SpawnCreatures();
+        creatureFactory.resetMoves();
+        player.resetMoves();
+        System.out.println("New turn starts.");
     }
     
 }
