@@ -7,7 +7,6 @@ import java.awt.Color;
  */
 public abstract class Wall extends MapObject{
     
-    protected boolean diggable;
 
     public Wall() {
         this.walkable = false;
@@ -18,8 +17,4 @@ public abstract class Wall extends MapObject{
      
     }
 
-    public boolean isDiggable() {
-        return diggable;
-    }
-    
 }

@@ -20,9 +20,8 @@ class Tile {
     private MapObject mapObject;
     private Creature creature;
     private JTextField text;
-    private final static Font MAP_FONT = new Font("Consolas", Font.PLAIN, 18);
-    private final static Color bgColor = Color.BLACK;
-    private Color fgColor;
+    private final static Font MAP_FONT = new Font("Lucida Console", Font.PLAIN, 16);
+    private final static Color BACKGROUND_COLOR = Color.BLACK;
     
     public Tile(){ 
     }
@@ -30,16 +29,16 @@ class Tile {
     public Tile(MapObject mapObject, int x, int y){
         this.x = x;
         this.y = y;
+        this.mapObject = mapObject;
         creature = null;
         text = new JTextField();
         text.setBorder(null);
         text.setFocusable(false);
         text.setFont(MAP_FONT);
-        fgColor = mapObject.getMapColor();
-        text.setBackground(bgColor);
-        text.setForeground(fgColor);
-        text.setText(""+mapObject.getMapCharacter());
-        this.mapObject = mapObject;
+        text.setBackground(BACKGROUND_COLOR);
+        text.setForeground(this.mapObject.getMapColor());
+        text.setText(""+this.mapObject.getMapCharacter());
+        
     }
     
     public boolean isNotOccupied(){
@@ -49,10 +48,22 @@ class Tile {
     public boolean isWalkable(){
         return mapObject.isWalkable();
     }
+    public boolean isDiggable(){
+        if(mapObject.isWall()){
+            return mapObject.isDiggable();
+        }
+        else return false;
+    }
 
     public MapObject getMapObject() {
         return mapObject;
     }
+
+    public void setMapObject(MapObject mapObject) {
+        this.mapObject = mapObject;
+        text.setText(""+mapObject.getMapCharacter());
+    }
+    
 
     public JTextField getText() {
         return text;
@@ -70,15 +81,12 @@ class Tile {
         this.creature = creature;
         if(creature == null){
             text.setText(""+mapObject.getMapCharacter());
-            fgColor = mapObject.getMapColor();
-            text.setForeground(fgColor);
+            text.setForeground(mapObject.getMapColor());
         }
         else{
             text.setText(""+creature.getGlyph());
-            fgColor = creature.getColor();
-            text.setForeground(fgColor);
+            text.setForeground(creature.getColor());
         }
     }
-    
-    
+
 }

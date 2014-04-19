@@ -11,11 +11,11 @@ import java.awt.Color;
  *
  * @author otso
  */
-public class SolidWall extends Wall{
+public class dugWall extends Floor{
+
+    public dugWall() {
+        this.mapCharacter = '▒';
+        this.mapColor = Color.LIGHT_GRAY;
+    }
     
-    public SolidWall() {
-        this.diggable = false;
-        this.mapColor = Color.GRAY;
-        this.diggable = false;
-    } 
 }

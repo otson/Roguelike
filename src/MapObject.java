@@ -20,6 +20,7 @@ public abstract class MapObject {
     protected boolean seeThrough;
     protected boolean needsUpdate;
     protected boolean wall;
+    protected boolean diggable;
     protected Color mapColor;
     protected Creature creature;
     
@@ -48,6 +49,9 @@ public abstract class MapObject {
 
     public boolean isWall() {
         return wall;
+    }
+    public boolean isDiggable(){
+        return diggable;
     }
 
     public boolean isNotOccupied() {

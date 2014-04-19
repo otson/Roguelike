@@ -19,7 +19,7 @@ public class MapCreator {
         tileMap = new Tile[MAP_ROWS][MAP_COLUMNS];
         
         generateBorders();   
-        generateRandomness(45);
+        generateRandomness(WALL_PERCENTAGE);
         generateCaves(10, 5, 4);
         finalizeWalls();
     }
