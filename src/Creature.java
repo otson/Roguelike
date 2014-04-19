@@ -35,10 +35,10 @@ public abstract class Creature {
                 count++;
                 int xx = rand.nextInt(tileMap.length-1)+1;
                 int yy = rand.nextInt(tileMap[0].length-1)+1;
-                if(tileMap[xx][yy].getMapObject().isNotOccupied() && tileMap[xx][yy].getMapObject().isWalkable()){    
+                if(tileMap[xx][yy].isNotOccupied() && tileMap[xx][yy].isWalkable()){    
                     x = xx;
                     y = yy;
-                    tileMap[xx][yy].getMapObject().setCreature(this);
+                    tileMap[xx][yy].setCreature(this);
                     notSet = false;
                     System.out.println("added creature at" +x+" "+y);
                 }
@@ -50,9 +50,9 @@ public abstract class Creature {
             }
         }
         protected void move(int x, int y){
-            if(tileMap[this.x+x][this.y+y].getMapObject().isNotOccupied() && tileMap[this.x+x][this.y+y].getMapObject().isWalkable()){
-                tileMap[this.x][this.y].getMapObject().setCreature(null);
-                tileMap[this.x+x][this.y+y].getMapObject().setCreature(this);
+            if(tileMap[this.x+x][this.y+y].isNotOccupied() && tileMap[this.x+x][this.y+y].isWalkable()){
+                tileMap[this.x][this.y].setCreature(null);
+                tileMap[this.x+x][this.y+y].setCreature(this);
                 this.x +=x;
                 this.y +=y;
             } 

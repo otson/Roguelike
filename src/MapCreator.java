@@ -1,6 +1,5 @@
 
 import java.util.Random;
-import javax.swing.JTextPane;
 
 /**
  *
@@ -15,7 +14,7 @@ public class MapCreator {
     private final int STAY_ALIVE = 4;
     private Random rand;
 
-    MapCreator(JTextPane map, int MAP_ROWS, int MAP_COLUMNS) {
+    MapCreator(int MAP_ROWS, int MAP_COLUMNS) {
         rand = new Random();
         tileMap = new Tile[MAP_ROWS][MAP_COLUMNS];
         

@@ -18,6 +18,7 @@ public class Floor extends MapObject{
     public Floor() {
         this.walkable = true;
         this.mapCharacter = '.';
+        this.currentCharacter = this.mapCharacter;
         this.seeThrough = true;
         this.mapColor = Color.GREEN;
         this.wall = false;
