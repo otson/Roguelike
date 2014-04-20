@@ -1,0 +1,24 @@
+package roguelike.walls;
+
+
+import roguelike.walls.Wall;
+import java.awt.Color;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author otso
+ */
+public class SolidWall extends Wall{
+    
+    public SolidWall() {
+        this.diggable = false;
+        this.mapColor = Color.GRAY;
+        this.diggable = false;
+    } 
+}

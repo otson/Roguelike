@@ -1,3 +1,5 @@
+package roguelike.walls;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,10 +10,10 @@
  *
  * @author otso
  */
-public class DigWallDownLeft extends DigWall{
+public class DigWallTRight extends DigWall {
 
-    public DigWallDownLeft() {
-        this.mapCharacter = '└';
+    public DigWallTRight() {
+        this.mapCharacter = '┤';
     }
     
 }

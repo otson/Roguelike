@@ -1,5 +1,5 @@
-
-import java.awt.Color;
+package roguelike.walls;
+import roguelike.MapObject;
 
 /**
  *
@@ -11,7 +11,6 @@ public abstract class Wall extends MapObject{
     public Wall() {
         this.walkable = false;
         this.mapCharacter = '#';
-        this.currentCharacter = this.mapCharacter;
         this.seeThrough = false;
         this.wall = true;
      

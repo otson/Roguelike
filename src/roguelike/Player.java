@@ -19,10 +19,10 @@ public class Player extends Creature{
     public Player(Tile[][] tileMap, Player player, Messages messages) {
         super(tileMap, player, messages);
         this.glyph = '@';
-        this.attack = 30;
+        this.attack = 3;
         this.defense = 2;
         this.maxHealth = 1500000;
-        this.movesPerTurn = 1;
+        this.movesPerTurn = 2;
         this.movesLeft = this.movesPerTurn;
         this.currentHealth = this.maxHealth;
         this.color = Color.WHITE;

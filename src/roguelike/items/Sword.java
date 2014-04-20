@@ -4,14 +4,21 @@
  * and open the template in the editor.
  */
 
+package roguelike.items;
+
+import java.awt.Color;
+
 /**
  *
  * @author otso
  */
-public class DigWallHorizontal extends DigWall{
+public class Sword extends Weapon{
 
-    public DigWallHorizontal() {
-        this.mapCharacter = '─';
+    public Sword() {
+        this.color = Color.RED;
+        this.glyph = '\\';
+        this.id = 0;
     }
+    
     
 }

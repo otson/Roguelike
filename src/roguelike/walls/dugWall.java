@@ -1,3 +1,9 @@
+package roguelike.walls;
+
+
+import java.awt.Color;
+import roguelike.Floor;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,11 +14,11 @@
  *
  * @author otso
  */
-public class DigWallVertical extends DigWall{
+public class dugWall extends Floor{
 
-    public DigWallVertical() {
-        this.mapCharacter = '│';
+    public dugWall() {
+        this.mapCharacter = '▒';
+        this.mapColor = Color.LIGHT_GRAY;
     }
-    
     
 }
