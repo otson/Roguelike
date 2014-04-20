@@ -28,32 +28,32 @@ public class ContentPanel extends JPanel implements KeyListener{
     
     private final int STATS_HEIGHT = 60;
     private final int MESSAGES_HEIGHT = 60;
-    private int MAP_ROWS = 40;
-    private int MAP_COLUMNS = 150;
+    private int MAP_ROWS = 30;
+    private int MAP_COLUMNS = 100;
     private final Color TEXT_COLOR = Color.WHITE;
     private final Color BACKGROUND_COLOR = Color.BLACK;
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);
     private MapCreator mapCreator = new MapCreator(MAP_ROWS, MAP_COLUMNS);
+    private Map map;
     private CreatureFactory creatureFactory;
     private JPanel mapPanel;
-    
     private Stats stats;
     private boolean digEvent = false;
+    private Player player;
+    private Messages messages;
     
-    public Player player;
-    public Messages messages;
     
     public ContentPanel(){
         initStats();
         initMessages();
         addPlayer();
+        createCreatureFactory();
         addContent();
-        creatureFactory = new CreatureFactory(mapCreator.getTileMap(), player, messages);
         displayInitialMap();
     }
-    @Override
-    public void repaint(){
-        
+
+    private void createCreatureFactory() {
+        creatureFactory = new CreatureFactory(mapCreator.getTileMap(), player, messages);
     }
 
     private void addPlayer() {
@@ -76,7 +76,8 @@ public class ContentPanel extends JPanel implements KeyListener{
         GridLayout grid = new GridLayout(MAP_ROWS, MAP_COLUMNS);
         mapPanel = new JPanel(grid);
         mapPanel.setBorder(null);
-        this.add(mapPanel, BorderLayout.CENTER);
+        map = new Map(mapCreator.getTileMap());
+        this.add(map, BorderLayout.CENTER);
         this.add(statsArea, BorderLayout.SOUTH);
         this.add(messages, BorderLayout.NORTH);
     }
@@ -180,6 +181,7 @@ public class ContentPanel extends JPanel implements KeyListener{
         if(player.getMovesLeft() == 0){
             turnEnd();
         }
+        map.repaint();
     }
 
     @Override
@@ -196,5 +198,5 @@ public class ContentPanel extends JPanel implements KeyListener{
         creatureFactory.resetMoves();
         player.resetMoves();
     }
-    
+
 }

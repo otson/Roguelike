@@ -89,11 +89,6 @@ public abstract class Creature {
     }
 
     protected void action(){
-        //System.out.println("Total time spent in hunt method this turn: "+HostileCreature.time +" milliseconds.");
-        //HostileCreature.time = 0;
-        
-        System.out.println("Total time spent in Tile.setCreature method this turn: "+Tile.time +" milliseconds.");
-        Tile.time = 0;
         movesLeft--;   
     }
 
