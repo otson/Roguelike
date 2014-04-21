@@ -36,7 +36,7 @@ public class MapCreator {
         
         generateBorders();   
         generateRandomness(WALL_PERCENTAGE);
-        generateCaves(10, 5, 4);
+        generateCaves(5, 5, 4);
         finalizeWalls();
     }
     

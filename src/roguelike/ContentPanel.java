@@ -16,7 +16,6 @@ import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 /**
  *
@@ -28,8 +27,8 @@ public class ContentPanel extends JPanel implements KeyListener{
     
     private final int STATS_HEIGHT = 60;
     private final int MESSAGES_HEIGHT = 60;
-    private int MAP_ROWS = 30;
-    private int MAP_COLUMNS = 100;
+    private int MAP_ROWS = 3000;
+    private int MAP_COLUMNS = 3000;
     private final Color TEXT_COLOR = Color.WHITE;
     private final Color BACKGROUND_COLOR = Color.BLACK;
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);
@@ -61,12 +60,7 @@ public class ContentPanel extends JPanel implements KeyListener{
     }
 
     private void displayInitialMap() {
-        Tile[][] temp = mapCreator.getTileMap();
-        for (Tile[] temp1 : temp) {
-            for (Tile temp11 : temp1) {
-                mapPanel.add(temp11.getText());
-            }
-        }
+        map.repaint();
     }
 
     private void addContent() {
@@ -76,7 +70,7 @@ public class ContentPanel extends JPanel implements KeyListener{
         GridLayout grid = new GridLayout(MAP_ROWS, MAP_COLUMNS);
         mapPanel = new JPanel(grid);
         mapPanel.setBorder(null);
-        map = new Map(mapCreator.getTileMap());
+        map = new Map(mapCreator.getTileMap(), player);
         this.add(map, BorderLayout.CENTER);
         this.add(statsArea, BorderLayout.SOUTH);
         this.add(messages, BorderLayout.NORTH);
