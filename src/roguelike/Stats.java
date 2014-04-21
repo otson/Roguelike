@@ -21,6 +21,7 @@ public class Stats {
     
     private JPanel statsPanel;
     private final Font STATS_FONT = new Font("Helvetica", Font.PLAIN, 14);
+    private boolean blind;
     
     Stats(JPanel statsArea) {
         statsPanel = statsArea;
@@ -29,8 +30,8 @@ public class Stats {
         label.setForeground(Color.red);
         label.setFont(STATS_FONT);
         statsPanel.add(label);
-        statsPanel.setForeground(Color.WHITE);
-        
+        statsPanel.setForeground(Color.WHITE); 
     }
+    
     
 }

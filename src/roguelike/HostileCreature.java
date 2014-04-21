@@ -22,17 +22,21 @@ public abstract class HostileCreature extends Creature{
 
     @Override
     protected void hunt() {
-        if(movesLeft > 0){
-            int dirX = GetRelativePlayerX();
-            int dirY = GetRelativePlayerY();
+        if(seesPlayer){
+            if(movesLeft > 0){
+                int dirX = GetRelativePlayerX();
+                int dirY = GetRelativePlayerY();
 
-            if(canDig && tileMap[x+dirX][y+dirY].isDiggable())
-                dig(dirX, dirY);
-            else if(tileMap[x+dirX][y+dirY].hasPlayer())
-                attack(this, player);
-            else
-                move(dirX, dirY);
+                if(canDig && tileMap[x+dirX][y+dirY].isDiggable())
+                    dig(dirX, dirY);
+                else if(tileMap[x+dirX][y+dirY].hasPlayer())
+                    attack(this, player);
+                else
+                    move(dirX, dirY);
+            }
         }
+        else
+           wander();     
     }
 
     private int GetRelativePlayerX() {

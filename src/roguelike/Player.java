@@ -17,7 +17,6 @@ import roguelike.walls.dugWall;
 public class Player extends Creature{
     
     private boolean eyesOpen;
-    private int visionDistance;
     
     public Player(Tile[][] tileMap, Player player, Messages messages) {
         super(tileMap, player, messages);
@@ -32,7 +31,7 @@ public class Player extends Creature{
         this.canDig = true;
         this.name = "You";
         eyesOpen = true;
-        visionDistance = 80;
+        this.visionDistance = 800;
         
         addToMap();
     }
@@ -79,6 +78,7 @@ public class Player extends Creature{
         FOV();
     }
     
+    @Override
     public void resetCurrentVision() {
         for (Tile[] tileMap1 : tileMap) {
             for (Tile tileMap11 : tileMap1) {
@@ -97,6 +97,7 @@ public class Player extends Creature{
         action();
     }
     
+    @Override
     public void FOV(){
         resetCurrentVision();
         float xx,yy;
@@ -109,6 +110,7 @@ public class Player extends Creature{
         }
     }
 
+    @Override
     void DoFov(float x,float y){
         int i;
         float ox,oy;

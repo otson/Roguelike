@@ -51,7 +51,7 @@ class Tile {
     public boolean hasPlayer(){
         if(creature == null)
             return false;
-        else return creature.getName().equals("You");
+        return creature.getName().equals("You");
     }
 
     public Creature getCreature() {
