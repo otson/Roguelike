@@ -43,7 +43,7 @@ public abstract class Creature {
         rand = new Random();
         alive = true;
         movesPerTurn = 1;
-        movesLeft = 1;
+        movesLeft = movesPerTurn;
         canDig = false;
     }
 

@@ -22,7 +22,6 @@ public abstract class HostileCreature extends Creature{
 
     @Override
     protected void hunt() {
-        startTime = System.currentTimeMillis();
         if(movesLeft > 0){
             int dirX = GetRelativePlayerX();
             int dirY = GetRelativePlayerY();
@@ -34,8 +33,6 @@ public abstract class HostileCreature extends Creature{
             else
                 move(dirX, dirY);
         }
-        endTime = System.currentTimeMillis();
-        time += (endTime-startTime);
     }
 
     private int GetRelativePlayerX() {

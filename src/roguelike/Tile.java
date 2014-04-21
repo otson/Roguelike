@@ -10,7 +10,9 @@ import java.awt.Color;
 class Tile {
 
     private MapObject mapObject;
+    private MapObject lastSeenMapObject;
     private Creature creature;
+    private Creature lastSeenCreature;
     private boolean seen;
     private boolean currentlySeen;
     private char lastSeenChar;
@@ -63,17 +65,17 @@ class Tile {
     }
     
     public Color getColor(){
-        if(currentlySeen == true && creature != null)
-            return creature.getColor();
+        if(lastSeenCreature != null && currentlySeen)
+            return lastSeenCreature.getColor();
         else
-            return mapObject.getMapColor();
+            return lastSeenMapObject.getMapColor();
     }
     
     public char getGlyph(){
-        if(currentlySeen == true && creature != null)
-            return creature.getGlyph();
+        if(lastSeenCreature != null && currentlySeen)
+            return lastSeenCreature.getGlyph();
         else
-            return mapObject.getMapCharacter();
+            return lastSeenMapObject.getMapCharacter();
     }
 
     public boolean isSeen() {
@@ -86,6 +88,8 @@ class Tile {
     public void setSeen(boolean seen) {
         this.seen = seen;
         this.currentlySeen = seen;
+        this.lastSeenCreature = creature;
+        this.lastSeenMapObject = mapObject;
     }
     public boolean blocksVision(){
         return !mapObject.isSeeThrough();

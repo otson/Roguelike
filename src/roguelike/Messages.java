@@ -103,5 +103,16 @@ public class Messages extends JPanel{
         else
             t(attacker.name+" mortally hits  "+target.name.toLowerCase()+". You die.");
     }
+
+    void toggleEyes(boolean eyesOpen) {
+        if(eyesOpen)
+            t("You open your eyes. You can see again!");
+        else
+            t("You close your eyes. You can't see what is happening around you.");
+    }
+
+    void findWallBlind() {
+        t("Blind, you bump into solid wall.");
+    }
     
 }
