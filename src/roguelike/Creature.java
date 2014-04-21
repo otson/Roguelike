@@ -45,7 +45,7 @@ public abstract class Creature {
         movesPerTurn = 1;
         movesLeft = movesPerTurn;
         canDig = false;
-        visionDistance = 5;
+        visionDistance = 20;
         seesPlayer = false;
         initializeVisionArrays();
     }
@@ -91,10 +91,8 @@ public abstract class Creature {
         for(i=0;i<visionDistance;i++)
         {
             seen[(int)ox][(int)oy] = true;
-            if(tileMap[(int)ox][(int)oy].hasPlayer()){
+            if(tileMap[(int)ox][(int)oy].hasPlayer())
                     seesPlayer = true;
-                    System.out.println("sees Player");
-            }
             if(tileMap[(int)ox][(int)oy].blocksVision())
                 return;
             ox+=x;
