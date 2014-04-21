@@ -15,8 +15,6 @@ class Tile {
     private Creature lastSeenCreature;
     private boolean seen;
     private boolean currentlySeen;
-    private char lastSeenChar;
-    private Color lastSeenColor;
     
     public Tile(){ 
     }
