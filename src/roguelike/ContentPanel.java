@@ -27,8 +27,8 @@ public class ContentPanel extends JPanel implements KeyListener{
     
     private final int STATS_HEIGHT = 60;
     private final int MESSAGES_HEIGHT = 60;
-    private int MAP_ROWS = 3000;
-    private int MAP_COLUMNS = 3000;
+    private int MAP_ROWS = 500;
+    private int MAP_COLUMNS = 500;
     private final Color TEXT_COLOR = Color.WHITE;
     private final Color BACKGROUND_COLOR = Color.BLACK;
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);
@@ -57,6 +57,7 @@ public class ContentPanel extends JPanel implements KeyListener{
 
     private void addPlayer() {
         player = new Player(mapCreator.getTileMap(), player, messages);
+        player.FOV();
     }
 
     private void displayInitialMap() {
@@ -184,6 +185,7 @@ public class ContentPanel extends JPanel implements KeyListener{
 
     private void turnEnd() {
         creatureFactory.ActMonsters();
+        resetCurrentVision();
         turnStart();
     }
 
@@ -191,6 +193,17 @@ public class ContentPanel extends JPanel implements KeyListener{
         creatureFactory.SpawnCreatures();
         creatureFactory.resetMoves();
         player.resetMoves();
+        player.FOV();
+    }
+
+    private void resetCurrentVision() {
+        Tile[][] tileMap = mapCreator.getTileMap();
+        for(int i = 0; i<tileMap.length; i++){
+            for(int j = 0; j<tileMap[i].length; j++){
+                tileMap[i][j].setCurrentlySeen(false);
+            }
+        }
+
     }
 
 }

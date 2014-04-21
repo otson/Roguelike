@@ -14,9 +14,9 @@ public class CreatureFactory {
     private Player player;
     private LinkedList<Creature> creatureList = new LinkedList<>();
     private Random rand = new Random();
-    private final int SPAWN_CHANCE_PERCENTAGE = 10;
+    private final int SPAWN_CHANCE_PERCENTAGE = 50;
     private int monsterCount = 0;
-    private final int MAX_MONSTER_COUNT = 50;
+    private final int MAX_MONSTER_COUNT = 200;
     private Messages messages;
 
     CreatureFactory(Tile[][] tileMap, Player player, Messages messages) {
@@ -59,6 +59,21 @@ public class CreatureFactory {
             creatureList.add(new MiningGnome(tileMap, player, messages));
         else if(result == 1)
             creatureList.add(new Blob(tileMap, player, messages));
+        System.out.println("Monster count: "+monsterCount);
+    }
+    
+    private void addRandomMonster(int amount) {
+        int i = 0;
+        while(i<amount){
+            monsterCount++;
+            int result = rand.nextInt(2);
+            if(result == 0)
+                creatureList.add(new MiningGnome(tileMap, player, messages));
+            else if(result == 1)
+                creatureList.add(new Blob(tileMap, player, messages));
+            i++;
+        }
+        System.out.println("Monster count: "+monsterCount);
     }
     
 }

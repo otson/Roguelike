@@ -58,7 +58,6 @@ public abstract class Creature {
                 x = xx;
                 y = yy;
                 tileMap[xx][yy].setCreature(this);
-                System.out.println("Added creature at: x:"+x+" y:"+y);
                 notSet = false;
             }
             else if(count == 100){

@@ -66,7 +66,36 @@ public class Player extends Creature{
     @Override
     protected void action(){
         movesLeft--;
-        
+        FOV();
+    }
+    
+    void FOV()
+    {
+      float xx,yy;
+      int i;
+      for(i=0;i<360;i+=1) // how many rays of light
+      {
+        xx=(float) Math.cos((float)i*0.01745f);
+        yy=(float) Math.sin((float)i*0.01745f);
+        DoFov(xx,yy);
+      }
+    }
+
+    void DoFov(float x,float y)
+    {
+      
+      int i;
+      float ox,oy;
+      ox = (float)this.x+0.5f;
+      oy = (float)this.y+0.5f;
+      for(i=0;i<80;i++)
+      {
+        tileMap[(int)ox][(int)oy].setSeen(true); 
+        if(tileMap[(int)ox][(int)oy].blocksVision())
+            return;
+        ox+=x;
+        oy+=y;
+      }
     }
     
 

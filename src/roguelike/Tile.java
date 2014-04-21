@@ -11,6 +11,10 @@ class Tile {
 
     private MapObject mapObject;
     private Creature creature;
+    private boolean seen;
+    private boolean currentlySeen;
+    private char lastSeenChar;
+    private Color lastSeenColor;
     
     public Tile(){ 
     }
@@ -18,6 +22,8 @@ class Tile {
     public Tile(MapObject mapObject, int x, int y){
         this.mapObject = mapObject;
         creature = null;
+        seen = false;
+        currentlySeen = false;
     }
     
     public boolean isNotOccupied(){
@@ -57,17 +63,36 @@ class Tile {
     }
     
     public Color getColor(){
-        if(creature != null)
+        if(currentlySeen == true && creature != null)
             return creature.getColor();
         else
             return mapObject.getMapColor();
     }
     
     public char getGlyph(){
-        if(creature != null)
+        if(currentlySeen == true && creature != null)
             return creature.getGlyph();
         else
             return mapObject.getMapCharacter();
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+    public boolean isCurrentlySeen() {
+        return currentlySeen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
+        this.currentlySeen = seen;
+    }
+    public boolean blocksVision(){
+        return !mapObject.isSeeThrough();
+    }
+
+    void setCurrentlySeen(boolean b) {
+        this.currentlySeen = b;
     }
 
 }

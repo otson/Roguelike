@@ -37,7 +37,7 @@ public class Roguelike2 {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Roguelike");
         frame.add(getContent());
-        //frame.setResizable(false);
+        frame.setResizable(false);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

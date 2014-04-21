@@ -30,7 +30,7 @@ public class Map extends JPanel{
     private Player player;
     private int mapTotalWidth;
     private int mapTotalHeight;
-    private Font MAP_FONT = new Font("Lucida Console", Font.PLAIN, 16);
+    private Font MAP_FONT = new Font("Lucida Console", Font.PLAIN, 18);
     private FontMetrics fontMetrics;
     private BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     private int tileWidth;
@@ -46,6 +46,7 @@ public class Map extends JPanel{
     private int jMax;
     private int iCounter;
     private int jCounter;
+    private final char DARK = ' ';
 
     public Map(Tile[][] tiles, Player player) {
         this.player = player;
@@ -74,9 +75,6 @@ public class Map extends JPanel{
         iMin = playerY-VISIBLE_TILES_Y/2;
         iMax = playerY+VISIBLE_TILES_Y/2;
         
-        System.out.println("jMin: "+jMin+" jMax:"+jMax+" iMin:"+iMin+" iMax:"+iMax);
-        
-        
         if(jMin<0){
             jMin = 0;
             jMax = VISIBLE_TILES_X;
@@ -94,24 +92,26 @@ public class Map extends JPanel{
             iMax = mapTotalHeight;
             iMin = iMax-VISIBLE_TILES_Y;
         }
-            
-        
-        System.out.println("jMin: "+jMin+" jMax:"+jMax+" iMin:"+iMin+" iMax:"+iMax);
-        
+
         iCounter = 0;
         jCounter = 0;
         int tileCounter = 0;
         for(int i = iMin; i<iMax; i++){
             for(int j = jMin; j<jMax; j++){
-                og.setColor(tiles[i][j].getColor());
-                og.drawString(""+tiles[i][j].getGlyph(), tileWidth*jCounter, tileHeight*iCounter+tileHeight);
+                if(tiles[i][j].isSeen()){
+                    og.setColor(tiles[i][j].getColor());
+                    og.drawString(""+tiles[i][j].getGlyph(), tileWidth*jCounter, tileHeight*iCounter+tileHeight);
+                }
+                else{
+                    og.setColor(Color.BLACK);
+                    og.drawString(""+DARK, tileWidth*jCounter, tileHeight*iCounter+tileHeight);
+                }
                 jCounter++;
                 tileCounter++;
             }
             iCounter++;
             jCounter = 0;
         }
-        System.out.println("Drawn tiles: "+tileCounter);
         g.drawImage(oi, 0, 0, this);
         long end = System.currentTimeMillis();
     }
