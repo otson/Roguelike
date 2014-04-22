@@ -37,12 +37,17 @@ public class MapCreator {
         this.z = level;
         this.mapRows = MAP_ROWS;
         this.mapColumns = MAP_COLUMNS;
-        createFirstLevel(level);
-        createFirstLevel(level+1);
-        createFirstLevel(level+2);
-        createFirstLevel(level-1);
-        createFirstLevel(level-2);
+        createLevels(500);
+
     }
+    private void createLevels(int count){
+        int i = count/2-count;
+        while(i<count/2){
+            createLevel(i);
+            i++;
+        }
+    }
+    
     
     private void generateBorders(Tile[][] tileMap){
         for(int i = 0; i<tileMap.length; i++){
@@ -231,7 +236,7 @@ public class MapCreator {
         return levels;
     }
 
-    public final void createFirstLevel(int level) {
+    public final void createLevel(int level) {
         this.z = level;
         Tile[][] tileMap = new Tile[mapRows][mapColumns];
         generateBorders(tileMap);   
