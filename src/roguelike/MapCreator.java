@@ -1,6 +1,6 @@
 package roguelike;
 
-
+import java.util.HashMap;
 import java.util.Random;
 import roguelike.walls.DigWall;
 import roguelike.walls.DigWallCross;
@@ -22,25 +22,29 @@ import roguelike.walls.SolidWall;
  * @author otso
  */
 public class MapCreator {
-    
-    public Tile[][] tileMap;
+
     private final int WALL_PERCENTAGE = 45;
     private final int CAVE_ROUNDS = 5;
     private final int BIRTH = 5;
     private final int STAY_ALIVE = 4;
-    private Random rand;
+    private int mapRows;
+    private int mapColumns;
+    private int z;
+    private Random rand = new Random();
+    private HashMap<Integer, Tile[][]> levels = new HashMap<>();
 
-    MapCreator(int MAP_ROWS, int MAP_COLUMNS) {
-        rand = new Random();
-        tileMap = new Tile[MAP_ROWS][MAP_COLUMNS];
-        
-        generateBorders();   
-        generateRandomness(WALL_PERCENTAGE);
-        generateCaves(25, 5, 4);
-        finalizeWalls();
+    MapCreator(int level, int MAP_ROWS, int MAP_COLUMNS) {
+        this.z = level;
+        this.mapRows = MAP_ROWS;
+        this.mapColumns = MAP_COLUMNS;
+        createFirstLevel(level);
+        createFirstLevel(level+1);
+        createFirstLevel(level+2);
+        createFirstLevel(level-1);
+        createFirstLevel(level-2);
     }
     
-    private void generateBorders(){
+    private void generateBorders(Tile[][] tileMap){
         for(int i = 0; i<tileMap.length; i++){
             for(int j = 0; j<tileMap[i].length; j++){
                 tileMap[i][j] = new Tile(new SolidWall(), i, j);
@@ -48,7 +52,7 @@ public class MapCreator {
         }
     }
     
-    private void generateRandomness(int wallPercentage){
+    private void generateRandomness(Tile[][] tileMap, int wallPercentage){
         for(int i = 1; i+1<tileMap.length; i++){
             for(int j = 1; j+1<tileMap[i].length; j++){
                 if(rand.nextInt(101) > wallPercentage)
@@ -61,7 +65,7 @@ public class MapCreator {
         }
     }
     
-    private void generateCaves(int rounds, int birth, int alive){
+    private void generateCaves(Tile[][] tileMap, int rounds, int birth, int alive){
         int[][] wallCount = new int[tileMap.length][tileMap[0].length];
         int count = 0;
         int times = 0;
@@ -105,15 +109,7 @@ public class MapCreator {
         }
     }
 
-    public Tile[][] getTileMap() {
-        return tileMap;
-    }
-
-    public void setTileMap(Tile[][] tileMap) {
-        this.tileMap = tileMap;
-    }
-
-    private void finalizeWalls() {
+    private void finalizeWalls(Tile[][] tileMap) {
         boolean upLeft;
         boolean upMid;
         boolean upRight;
@@ -197,5 +193,55 @@ public class MapCreator {
                 }
         }
     }
+
+    private void addStairs(Tile[][] tileMap) {
+        boolean notSet = true;
+        int count = 0;
+        while(notSet){
+            count++;
+            int xx = rand.nextInt(tileMap.length-1)+1;
+            int yy = rand.nextInt(tileMap[0].length-1)+1;
+            if(tileMap[xx][yy].isNotOccupied() && tileMap[xx][yy].isWalkable()){    
+                tileMap[xx][yy].setMapObject(new UpStairs());
+                notSet = false;
+            }
+            else if(count == 100){
+                System.out.println("Failed to place upstairs.");
+                notSet = false;
+            }
+        }
+        notSet = true;
+        count = 0;
+        while(notSet){
+            count++;
+            int xx = rand.nextInt(tileMap.length-1)+1;
+            int yy = rand.nextInt(tileMap[0].length-1)+1;
+            if(tileMap[xx][yy].isNotOccupied() && tileMap[xx][yy].isWalkable()){    
+                tileMap[xx][yy].setMapObject(new DownStairs());
+                notSet = false;
+            }
+            else if(count == 100){
+                System.out.println("Failed to place downstairs.");
+                notSet = false;
+            }
+        }
+    }
+
+    public HashMap<Integer, Tile[][]> getLevels() {
+        return levels;
+    }
+
+    public final void createFirstLevel(int level) {
+        this.z = level;
+        Tile[][] tileMap = new Tile[mapRows][mapColumns];
+        generateBorders(tileMap);   
+        generateRandomness(tileMap, WALL_PERCENTAGE);
+        generateCaves(tileMap, 25, 5, 4);
+        addStairs(tileMap);
+        finalizeWalls(tileMap);
+        levels.put(level, tileMap);
+        System.out.println(levels.size());
+    }
+    
 
 }

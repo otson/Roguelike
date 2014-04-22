@@ -31,10 +31,10 @@ public abstract class Creature {
     protected boolean[][] seen;
     protected boolean[][] currentlySeen;
     protected boolean seesPlayer;
+    protected int level;
 
 
     public Creature(Tile[][] tileMap, Player player, Messages messages){
-        
         this.tileMap = tileMap;
         this.player = player;
         this.messages = messages;
@@ -220,6 +220,10 @@ public abstract class Creature {
                 currentlySeen[i][j] = false;
             }
         }
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
     
 

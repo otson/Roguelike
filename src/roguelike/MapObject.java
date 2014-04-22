@@ -87,6 +87,5 @@ public abstract class MapObject {
     public void setNeedsUpdate(boolean needsUpdate) {
         this.needsUpdate = needsUpdate;
     }
-    
- 
+
 }

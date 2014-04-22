@@ -17,9 +17,11 @@ import roguelike.walls.dugWall;
 public class Player extends Creature{
     
     private boolean eyesOpen;
+    private MapCreator mapCreator;
     
-    public Player(Tile[][] tileMap, Player player, Messages messages) {
+    public Player(Tile[][] tileMap, Player player, Messages messages, MapCreator mapCreator) {
         super(tileMap, player, messages);
+        this.mapCreator = mapCreator;
         this.glyph = '@';
         this.attack = 3;
         this.defense = 2;
@@ -31,7 +33,8 @@ public class Player extends Creature{
         this.canDig = true;
         this.name = "You";
         eyesOpen = true;
-        this.visionDistance = 800;
+        this.visionDistance = 80;
+        this.mapCreator = mapCreator;
         
         addToMap();
     }
@@ -39,7 +42,6 @@ public class Player extends Creature{
   
     @Override
     void dig(int x, int y) {
-        System.out.println("Player health: "+ currentHealth);
         if(tileMap[this.x+x][this.y+y].getMapObject().isWall()){
             if(tileMap[this.x+x][this.y+y].getMapObject().isDiggable()){
                 tileMap[this.x+x][this.y+y].setMapObject(new dugWall());
@@ -136,4 +138,68 @@ public class Player extends Creature{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    void goUp() {
+        if(tileMap[this.x][this.y].hasStairs()){
+            if(tileMap[this.x][this.y].hasUpStairs()){
+                messages.goingUpStairs();
+                useStairs(1);
+            }
+            else
+                messages.goingUpDownstairs();
+        }
+        else
+            messages.goingUpNoStairs();
+        
+    }
+
+    void goDown() {
+        if(tileMap[this.x][this.y].hasStairs()){
+            if(tileMap[this.x][this.y].hasDownStairs()){
+                messages.goingDownStairs();
+                useStairs(-1);
+            }
+            else
+                messages.goingDownUpstairs();
+        }
+        else
+            messages.goingDownNoStairs();
+    }
+
+    private void useStairs(int is) {
+        if(mapCreator.getLevels().containsKey(level+is)){
+            
+            this.tileMap = mapCreator.getLevels().get(level+is);
+            if(is>0){ // going up
+                System.out.println("going up");
+                for(int i = 0; i<tileMap.length; i++){
+                    for(int j = 0; j<tileMap[0].length; j++){
+                        if(tileMap[i][j].hasDownStairs()){
+                            mapCreator.getLevels().get(level)[x][y].setCreature(null);
+                            x = i;
+                            y = j;
+                            level++;
+                            System.out.println("placed downstair location. x, y: "+x+","+y);
+                            tileMap[i][j].setCreature(this);
+                        }    
+                    }
+                }
+            }
+            else{ // going down
+                System.out.println("going down");
+                for(int i = 0; i<tileMap.length; i++){
+                    for(int j = 0; j<tileMap[0].length; j++){
+                        if(tileMap[i][j].hasUpStairs()){
+                            mapCreator.getLevels().get(level)[x][y].setCreature(null);
+                            x = i;
+                            y = j;
+                            level--;
+                            System.out.println("placed upstair location. x, y: "+x+","+y);
+                            tileMap[i][j].setCreature(this);
+                        }    
+                    }
+                }
+            }
+            action();
+        }
+    }
 }

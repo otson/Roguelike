@@ -15,6 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -35,8 +36,8 @@ public class Map extends JPanel{
     private BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     private int tileWidth;
     private int tileHeight;
-    private final int VISIBLE_TILES_X = 80;
-    private final int VISIBLE_TILES_Y = 24;
+    private int VISIBLE_TILES_X = 80;
+    private int VISIBLE_TILES_Y = 24;
     private int counter = 0;
     private int playerX;
     private int playerY;
@@ -47,12 +48,20 @@ public class Map extends JPanel{
     private int iCounter;
     private int jCounter;
     private final char DARK = ' ';
+    private HashMap<Integer, Tile[][]> levels;
 
-    public Map(Tile[][] tiles, Player player) {
+    public Map(HashMap<Integer, Tile[][]> levels, Player player) {
         this.player = player;
-        this.tiles = tiles;
-        mapTotalHeight = this.tiles.length;
-        mapTotalWidth = this.tiles[0].length;
+        this.levels = levels;
+        
+        //mapTotalHeight = this.tiles.length;
+        mapTotalHeight = levels.get(player.level).length;
+        //mapTotalWidth = this.tiles[0].length;
+        mapTotalWidth = levels.get(player.level)[0].length;
+        if(VISIBLE_TILES_X > mapTotalWidth)
+            VISIBLE_TILES_X = mapTotalWidth;
+        if(VISIBLE_TILES_Y > mapTotalHeight)
+            VISIBLE_TILES_Y = mapTotalHeight;
         fontMetrics = img.getGraphics().getFontMetrics(MAP_FONT);
         tileWidth = fontMetrics.stringWidth("a");
         tileHeight = fontMetrics.getHeight();
@@ -63,6 +72,7 @@ public class Map extends JPanel{
     
     @Override
     protected void paintComponent(Graphics g){
+        tiles = levels.get(player.level);
         getPlayerLocation();
         long start = System.currentTimeMillis();
         setDoubleBuffering();

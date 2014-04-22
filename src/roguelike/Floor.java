@@ -15,7 +15,7 @@ import java.awt.Color;
  */
 public class Floor extends MapObject{
     
-    boolean floor;
+    protected boolean floor;
 
     public Floor() {
         this.walkable = true;

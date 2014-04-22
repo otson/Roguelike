@@ -114,5 +114,29 @@ public class Messages extends JPanel{
     void findWallBlind() {
         t("Blind, you bump into solid wall.");
     }
+
+    void goingUpDownstairs() {
+        t("These stairs go down.");
+    }
+
+    void goingUpNoStairs() {
+        t("There are no stairs here.");
+    }
+
+    void goingDownUpstairs() {
+        t("These stairs go up.");
+    }
+
+    void goingDownNoStairs() {
+        t("There are no stairs here.");
+    }
+
+    void goingUpStairs() {
+        t("You go up the stairs.");
+    }
+
+    void goingDownStairs() {
+        t("You go down the stairs.");
+    }
     
 }

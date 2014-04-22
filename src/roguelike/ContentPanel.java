@@ -27,23 +27,25 @@ public class ContentPanel extends JPanel implements KeyListener{
     
     private final int STATS_HEIGHT = 60;
     private final int MESSAGES_HEIGHT = 60;
-    private int MAP_COLUMNS = 200;
-    private int MAP_ROWS = 100;
+    private int MAP_COLUMNS = 80;
+    private int MAP_ROWS = 24;
     private final Color TEXT_COLOR = Color.WHITE;
     private final Color BACKGROUND_COLOR = Color.BLACK;
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);
-    private MapCreator mapCreator = new MapCreator(MAP_ROWS, MAP_COLUMNS);
+    private MapCreator mapCreator;
     private Map map;
     private CreatureFactory creatureFactory;
     private JPanel mapPanel;
-    private Stats stats;
+    private JPanel stats;
     private boolean digEvent = false;
     private Player player;
     private Messages messages;
+    private int startLevel = 1;
     
     
     
     public ContentPanel(){
+        mapCreator = new MapCreator(startLevel, MAP_ROWS, MAP_COLUMNS);
         initStats();
         initMessages();
         addPlayer();
@@ -53,11 +55,12 @@ public class ContentPanel extends JPanel implements KeyListener{
     }
 
     private void createCreatureFactory() {
-        creatureFactory = new CreatureFactory(mapCreator.getTileMap(), player, messages);
+        creatureFactory = new CreatureFactory(mapCreator.getLevels(), player, messages);
     }
 
     private void addPlayer() {
-        player = new Player(mapCreator.getTileMap(), player, messages);
+        player = new Player(mapCreator.getLevels().get(startLevel), player, messages, mapCreator);
+        player.setLevel(startLevel);
         player.FOV();
     }
 
@@ -72,9 +75,9 @@ public class ContentPanel extends JPanel implements KeyListener{
         GridLayout grid = new GridLayout(MAP_ROWS, MAP_COLUMNS);
         mapPanel = new JPanel(grid);
         mapPanel.setBorder(null);
-        map = new Map(mapCreator.getTileMap(), player);
+        map = new Map(mapCreator.getLevels(), player);
         this.add(map, BorderLayout.CENTER);
-        this.add(statsArea, BorderLayout.SOUTH);
+        this.add(stats, BorderLayout.SOUTH);
         this.add(messages, BorderLayout.NORTH);
     }
 
@@ -175,6 +178,12 @@ public class ContentPanel extends JPanel implements KeyListener{
             case KeyEvent.VK_C: 
                 player.toggleEyes(); 
                 break;
+            case KeyEvent.VK_UP: 
+                player.goUp();
+                break;
+            case KeyEvent.VK_DOWN: 
+                player.goDown();
+                break;
         }
         if(player.getMovesLeft() == 0){
             turnEnd();
@@ -187,11 +196,13 @@ public class ContentPanel extends JPanel implements KeyListener{
     }
 
     private void turnEnd() {
+        creatureFactory.setCreatureLevel(player.level);
         creatureFactory.ActMonsters();
         turnStart();
     }
 
     private void turnStart() {
+        creatureFactory.setCreatureLevel(player.level);
         creatureFactory.SpawnCreatures();
         creatureFactory.resetMoves();
         player.resetMoves();

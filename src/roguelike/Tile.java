@@ -96,5 +96,16 @@ class Tile {
     void setCurrentlySeen(boolean b) {
         this.currentlySeen = b;
     }
-
+    
+    public boolean hasStairs(){
+        return mapObject instanceof Stairs;
+    }
+    
+    public boolean hasUpStairs(){
+        return mapObject instanceof UpStairs;
+    }
+    
+    public boolean hasDownStairs(){
+        return mapObject instanceof DownStairs;
+    }
 }
