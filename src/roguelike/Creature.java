@@ -41,6 +41,7 @@ public abstract class Creature {
         this.tileMap = tileMap;
         this.player = player;
         this.messages = messages;
+        defense = 1;
         seen = new boolean[tileMap.length][tileMap[0].length];
         currentlySeen = new boolean[tileMap.length][tileMap[0].length];
         rand = new Random();
@@ -131,7 +132,8 @@ public abstract class Creature {
     }
     
     protected void attack(Creature attacker, Creature target){
-        target.hit(attacker, attack);
+        int incDamage = rand.nextInt(attack)+1;
+        target.hit(attacker, incDamage);
     }
     
     void dig(int x, int y) {
