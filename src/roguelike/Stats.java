@@ -39,12 +39,10 @@ public class Stats extends JPanel{
         this.setVisible(true);
         this.setFocusable(false);
         this.setLayout(new GridLayout(3,6));
-        JLabel label = new JLabel("Stat Jlabel");
-        label.setForeground(Color.red);
-        label.setFont(STATS_FONT);
         hpBar = new JLabel("HP");
+        hpBar.setFont(STATS_FONT);
+        hpBar.setForeground(Color.BLACK); 
         this.add(hpBar);
-        this.add(label);
         this.setForeground(Color.WHITE); 
     }
     
