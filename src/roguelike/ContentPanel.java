@@ -41,14 +41,12 @@ public class ContentPanel extends JPanel implements KeyListener{
     private Player player;
     private Messages messages;
     private int startLevel = 1;
-    
-    
-    
+
     public ContentPanel(){
         mapCreator = new MapCreator(startLevel, MAP_ROWS, MAP_COLUMNS);
-        initStats();
         initMessages();
         addPlayer();
+        initStats();
         createCreatureFactory();
         addContent();
         displayInitialMap();
@@ -87,7 +85,7 @@ public class ContentPanel extends JPanel implements KeyListener{
 
     private void initStats() {
         statsArea = new JPanel();
-        stats = new Stats(statsArea);
+        stats = new Stats(player);
         statsArea.setPreferredSize(new Dimension(50, STATS_HEIGHT));
         statsArea.setBackground(BACKGROUND_COLOR);
         statsArea.setFocusable(false);
@@ -189,6 +187,7 @@ public class ContentPanel extends JPanel implements KeyListener{
             turnEnd();
         }
         map.repaint();
+        stats.repaint();
     }
 
     @Override
@@ -206,6 +205,8 @@ public class ContentPanel extends JPanel implements KeyListener{
         creatureFactory.SpawnCreatures();
         creatureFactory.resetMoves();
         player.resetMoves();
+        player.FOV();
+        player.checkRegen();
     }
 
     

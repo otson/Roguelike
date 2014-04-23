@@ -43,8 +43,10 @@ public class CreatureFactory {
                 i--;
                 monsterCount--;
             }
-            else
+            else{
+                c.checkRegen();
                 c.hunt();
+            }
         }
     }
 

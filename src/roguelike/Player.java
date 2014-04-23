@@ -23,10 +23,12 @@ public class Player extends Creature{
         super(tileMap, player, messages);
         this.mapCreator = mapCreator;
         this.glyph = '@';
-        this.attack = 3;
-        this.defense = 2;
-        this.maxHealth = 1500000;
-        this.movesPerTurn = 2;
+        this.attack = 10;
+        this.defense = 1;
+        this.maxHealth = 100;
+        this.movesPerTurn = 1;
+        this.turnsToRegenerate = 2;
+        this.regenAmount = 1;
         this.movesLeft = this.movesPerTurn;
         this.currentHealth = this.maxHealth;
         this.color = Color.WHITE;

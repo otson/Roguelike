@@ -20,6 +20,9 @@ public abstract class Creature {
     protected int movesPerTurn;
     protected int movesLeft;
     protected int visionDistance;
+    protected int turnsToRegenerate;
+    protected int turnsSinceRegeneration;
+    protected int regenAmount;
     protected boolean canDig;
     protected boolean alive;
     protected Random rand;
@@ -43,6 +46,9 @@ public abstract class Creature {
         rand = new Random();
         alive = true;
         movesPerTurn = 1;
+        turnsSinceRegeneration = 0;
+        turnsToRegenerate = 5;
+        regenAmount = 1;
         movesLeft = movesPerTurn;
         canDig = false;
         visionDistance = 20;
@@ -178,6 +184,13 @@ public abstract class Creature {
         }
         
     }
+    
+    protected void checkRegen(){
+        if(turnsSinceRegeneration >= turnsToRegenerate)
+           regenerate();
+        else
+            turnsSinceRegeneration++;
+    }
 
     public boolean isAlive() {
             return alive;
@@ -224,6 +237,15 @@ public abstract class Creature {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    private void regenerate() {
+        if(this.currentHealth < this.maxHealth){
+            this.currentHealth += regenAmount;
+            if(this.currentHealth > this.maxHealth)
+                this.currentHealth = this.maxHealth;  
+        }
+        turnsSinceRegeneration = 0;
     }
     
 
