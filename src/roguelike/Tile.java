@@ -1,5 +1,6 @@
 package roguelike;
 
+import roguelike.mapobjects.MapObject;
 import java.awt.Color;
 
 /**
