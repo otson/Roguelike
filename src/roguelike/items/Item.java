@@ -22,6 +22,14 @@ public abstract class Item {
 
     public Item() {
     }
+
+    public char getGlyph() {
+        return glyph;
+    }
+
+    public Color getColor() {
+        return color;
+    }
     
     
 }

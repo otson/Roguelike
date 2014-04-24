@@ -16,6 +16,7 @@ class Tile {
     private boolean currentlySeen;
     private int x;
     private int y;
+    protected int[] inventory = new int[PlayScreen.ITEM_LIST.size()];
 
     public Tile() {
     }
@@ -73,6 +74,9 @@ class Tile {
         if (lastSeenCreature != null && currentlySeen) {
             return lastSeenCreature.getColor();
         }
+        else if(inventory[0] != 0){
+            return PlayScreen.ITEM_LIST.get(0).getColor();
+        }
         else {
             return lastSeenMapObject.getMapColor();
         }
@@ -81,6 +85,9 @@ class Tile {
     public char getGlyph() {
         if (lastSeenCreature != null && currentlySeen) {
             return lastSeenCreature.getGlyph();
+        }
+        else if(inventory[0] != 0){
+            return PlayScreen.ITEM_LIST.get(0).getGlyph();
         }
         else {
             return lastSeenMapObject.getMapCharacter();
@@ -120,5 +127,33 @@ class Tile {
 
     public boolean hasDownStairs() {
         return mapObject instanceof DownStairs;
+    }
+    
+    public void addItem(int id, int amount) {
+        inventory[id] += amount;
+    }
+
+    public void removeItem(int id, int amount) {
+        inventory[id] -= amount;
+    }
+
+    public void dropAllItems() {
+        for(int i = 0; i<creature.inventory.length; i++){
+            if(creature.inventory[i] != 0)
+                inventory[i] += creature.inventory[i];
+        }
+        creature.emptyInventory();
+    }
+
+    public void emptyInventory() {
+        for(int i = 0; i<inventory.length; i++)
+            inventory[i] = 0;
+    }
+    public boolean hasItems(){
+        for(int i = 0; i<inventory.length; i++){
+            if(inventory[i] != 0)
+                return true;
+        }
+        return false;
     }
 }

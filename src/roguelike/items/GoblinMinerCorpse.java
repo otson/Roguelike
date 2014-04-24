@@ -11,9 +11,12 @@ import java.awt.Color;
  *
  * @author otso
  */
-public abstract class Food extends Consumable {
+public class GoblinMinerCorpse extends Food {
 
-    public Food() {
+    public GoblinMinerCorpse() {
+        this.color = Color.RED;
+        this.glyph = '%';
+        this.id = 0;
         
     }
 

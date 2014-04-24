@@ -9,13 +9,18 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 import javax.swing.JPanel;
+import roguelike.items.GoblinMinerCorpse;
+import roguelike.items.Item;
 
 /**
  *
  * @author otso
  */
 class PlayScreen extends JPanel implements KeyListener {
+
+    public static final HashMap<Integer, Item> ITEM_LIST = new HashMap<>();
 
     private final int MESSAGES_HEIGHT = 60;
     private final int MAP_WIDTH = 200;
@@ -33,7 +38,7 @@ class PlayScreen extends JPanel implements KeyListener {
     private int startLevel = 1;
 
     public PlayScreen() {
-
+        initItemList();
         mapCreator = new MapCreator(startLevel, MAP_WIDTH, MAP_HEIGHT);
         initMessages();
         addPlayer();
@@ -168,6 +173,12 @@ class PlayScreen extends JPanel implements KeyListener {
             case KeyEvent.VK_DOWN:
                 player.goDown();
                 break;
+            case KeyEvent.VK_COMMA:
+                player.pickUpItems();
+                break;
+            case KeyEvent.VK_PERIOD:
+                player.dropItems();
+                break;
         }
         if (player.getMovesLeft() == 0) {
             turnEnd();
@@ -193,6 +204,10 @@ class PlayScreen extends JPanel implements KeyListener {
         player.resetMoves();
         player.FOV();
         player.checkRegen();
+    }
+
+    private void initItemList() {
+        ITEM_LIST.put(0, new GoblinMinerCorpse());
     }
 
 }

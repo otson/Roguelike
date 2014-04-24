@@ -23,6 +23,7 @@ public class MiningGnome extends HostileCreature {
         this.currentHealth = maxHealth;
         this.color = new Color(142, 88, 60);
         this.name = "Gnome Miner";
+        addItem(0,1);
         addToMap();
     }
 

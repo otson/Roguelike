@@ -36,6 +36,7 @@ public abstract class Creature {
     protected int lastSeenPlayerX = -1;
     protected int lastSeenPlayerY = -1;
     protected int level;
+    protected int[] inventory = new int[PlayScreen.ITEM_LIST.size()];
 
     public Creature(Tile[][] tileMap, Player player, Messages messages) {
         this.tileMap = tileMap;
@@ -241,6 +242,7 @@ public abstract class Creature {
 
     private void die() {
         alive = false;
+        tileMap[x][y].dropAllItems();
         tileMap[x][y].setCreature(null);
     }
 
@@ -265,6 +267,48 @@ public abstract class Creature {
             }
         }
         turnsSinceRegeneration = 0;
+    }
+
+    public void pickUpItems() {
+        if (tileMap[x][y].hasItems()) {
+            pickUpAll();
+        }
+    }
+
+    private void pickUpAll() {
+        for (int i = 0; i < inventory.length; i++) {
+            inventory[i] += tileMap[x][y].inventory[i];
+        }
+        tileMap[x][y].emptyInventory();
+    }
+
+    public void dropItems() {
+        dropAll();
+    }
+
+    private void dropAll() {
+        for (int i = 0; i < inventory.length; i++) {
+            tileMap[x][y].inventory[i] += inventory[i];
+        }
+        emptyInventory();
+    }
+
+    public void addItem(int id, int amount) {
+        inventory[id] += amount;
+    }
+
+    public void removeItem(int id, int amount) {
+        inventory[id] -= amount;
+    }
+
+    public void emptyInventory() {
+        for (int i = 0; i < inventory.length; i++) {
+            inventory[i] = 0;
+        }
+    }
+
+    public int[] getInventory() {
+        return inventory;
     }
 
 }

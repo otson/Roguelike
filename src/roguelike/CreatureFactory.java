@@ -18,7 +18,7 @@ public class CreatureFactory {
     private Random rand = new Random();
     private final int SPAWN_CHANCE_PERCENTAGE = 50;
     private int monsterCount = 0;
-    private final int MAX_MONSTER_COUNT = 2;
+    private final int MAX_MONSTER_COUNT = 40;
     private Messages messages;
 
     CreatureFactory(HashMap<Integer, Tile[][]> levels, Player player, Messages messages) {
