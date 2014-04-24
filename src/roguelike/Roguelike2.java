@@ -5,7 +5,6 @@ package roguelike;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.awt.GraphicsEnvironment;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -15,6 +14,8 @@ import javax.swing.SwingUtilities;
  * @author otso
  */
 public class Roguelike2 {
+    
+    private static ContentPanel content;
 
     /**
      * @param args the command line arguments
@@ -39,15 +40,15 @@ public class Roguelike2 {
         frame.setTitle("Roguelike");
         frame.add(getContent());
         frame.setResizable(false);
+        frame.setFocusable(false);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
     }
 
     private static JPanel getContent() {
 
-        ContentPanel content = new ContentPanel();
+        content = new ContentPanel();
         return content;
     }
 

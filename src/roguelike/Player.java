@@ -1,7 +1,7 @@
 package roguelike;
 
 import java.awt.Color;
-import roguelike.walls.dugWall;
+import roguelike.mapobjects.walls.dugWall;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

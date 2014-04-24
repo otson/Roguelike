@@ -5,10 +5,12 @@
  */
 package roguelike;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author otso
  */
-class StartScreen {
+class StartScreen extends JPanel{
 
 }

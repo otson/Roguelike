@@ -1,4 +1,8 @@
-package roguelike.walls;
+package roguelike.mapobjects.walls;
+
+
+import java.awt.Color;
+import roguelike.Floor;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -10,10 +14,11 @@ package roguelike.walls;
  *
  * @author otso
  */
-public class DigWallCross extends DigWall{
+public class dugWall extends Floor{
 
-    public DigWallCross() {
-        this.mapCharacter = '┼';
+    public dugWall() {
+        this.mapCharacter = '▒';
+        this.mapColor = Color.LIGHT_GRAY;
     }
     
 }

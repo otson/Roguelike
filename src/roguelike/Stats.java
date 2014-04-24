@@ -34,10 +34,10 @@ public class Stats extends JPanel {
         this.player = player;
         this.setPreferredSize(new Dimension(50, 50));
         this.setBackground(Color.BLACK);
-        this.setVisible(true);
         this.setFocusable(false);
         this.setLayout(new GridLayout(3, 6));
         hpBar = new JLabel("HP");
+        hpBar.setFocusable(false);
         hpBar.setFont(STATS_FONT);
         hpBar.setForeground(Color.BLACK);
         this.add(hpBar);

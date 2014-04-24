@@ -1,5 +1,5 @@
-package roguelike.walls;
-import roguelike.MapObject;
+package roguelike.mapobjects.walls;
+import roguelike.mapobjects.MapObject;
 
 /**
  *

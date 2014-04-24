@@ -2,7 +2,7 @@ package roguelike;
 
 import java.awt.Color;
 import java.util.Random;
-import roguelike.walls.dugWall;
+import roguelike.mapobjects.walls.dugWall;
 
 /**
  *
@@ -70,7 +70,6 @@ public abstract class Creature {
                 x = xx;
                 y = yy;
                 tileMap[xx][yy].setCreature(this);
-                System.out.println("This.x: " + this.x + " this.y: " + this.y);
                 notSet = false;
                 FOV();
 
@@ -280,6 +279,7 @@ public abstract class Creature {
             inventory[i] += tileMap[x][y].inventory[i];
         }
         tileMap[x][y].emptyInventory();
+        action();
     }
 
     public void dropItems() {
@@ -291,6 +291,7 @@ public abstract class Creature {
             tileMap[x][y].inventory[i] += inventory[i];
         }
         emptyInventory();
+        action();
     }
 
     public void addItem(int id, int amount) {

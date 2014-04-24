@@ -1,4 +1,4 @@
-package roguelike.walls;
+package roguelike.mapobjects.walls;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -10,10 +10,11 @@ package roguelike.walls;
  *
  * @author otso
  */
-public class DigWallTUp extends DigWall{
+public class DigWallVertical extends DigWall{
 
-    public DigWallTUp() {
-        this.mapCharacter = '┬';
+    public DigWallVertical() {
+        this.mapCharacter = '─';
     }
+    
     
 }

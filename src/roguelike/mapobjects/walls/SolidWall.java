@@ -1,8 +1,8 @@
-package roguelike.walls;
+package roguelike.mapobjects.walls;
 
 
+import roguelike.mapobjects.walls.Wall;
 import java.awt.Color;
-import roguelike.Floor;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,11 +14,11 @@ import roguelike.Floor;
  *
  * @author otso
  */
-public class dugWall extends Floor{
-
-    public dugWall() {
-        this.mapCharacter = '▒';
-        this.mapColor = Color.LIGHT_GRAY;
-    }
+public class SolidWall extends Wall{
     
+    public SolidWall() {
+        this.diggable = false;
+        this.mapColor = Color.GRAY;
+        this.diggable = false;
+    } 
 }

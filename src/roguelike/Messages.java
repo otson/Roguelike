@@ -44,6 +44,10 @@ public class Messages extends JPanel {
         fresh.setFont(MESSAGES_FONT);
         stale.setFont(MESSAGES_FONT);
         old.setFont(MESSAGES_FONT);
+        
+        fresh.setFocusable(false);
+        stale.setFocusable(false);
+        old.setFocusable(false);
 
         fresh.setBackground(bgColor);
         stale.setBackground(bgColor);

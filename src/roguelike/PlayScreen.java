@@ -6,12 +6,15 @@
 package roguelike;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import javax.swing.JPanel;
-import roguelike.items.GoblinMinerCorpse;
+import roguelike.items.MiningGnomeCorpse;
 import roguelike.items.Item;
 
 /**
@@ -27,17 +30,18 @@ class PlayScreen extends JPanel implements KeyListener {
     private final int MAP_HEIGHT = 40;
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);
     private MapCreator mapCreator;
-
     private CreatureFactory creatureFactory;
-
-    private boolean digEvent = false;
     private Player player;
     private Messages messages;
     private Map map;
     private Stats stats;
     private int startLevel = 1;
+    private boolean digEvent = false;
+    private InventoryScreen inventoryScreen = new InventoryScreen();
+    private boolean inventoryIsActive = false;
 
     public PlayScreen() {
+
         initItemList();
         mapCreator = new MapCreator(startLevel, MAP_WIDTH, MAP_HEIGHT);
         initMessages();
@@ -59,11 +63,9 @@ class PlayScreen extends JPanel implements KeyListener {
     private void addContent() {
         this.addKeyListener(this);
         this.setFocusable(true);
-        this.setLayout(new BorderLayout());
         map = new Map(mapCreator.getLevels(), player);
-        this.add(map, BorderLayout.CENTER);
-        this.add(stats, BorderLayout.SOUTH);
-        this.add(messages, BorderLayout.NORTH);
+        inventoryScreen.setPreferredSize(map.getPreferredSize());
+        showMap();
     }
 
     private void initMessages() {
@@ -80,6 +82,11 @@ class PlayScreen extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        respondToUserInput(e);
+    }
+
+    public void respondToUserInput(KeyEvent e) {
+        System.out.println("Responding");
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);
@@ -179,12 +186,17 @@ class PlayScreen extends JPanel implements KeyListener {
             case KeyEvent.VK_PERIOD:
                 player.dropItems();
                 break;
+            case KeyEvent.VK_I:
+                toggleInventory();
+                break;
         }
+
         if (player.getMovesLeft() == 0) {
             turnEnd();
         }
         map.repaint();
         stats.repaint();
+
     }
 
     @Override
@@ -207,7 +219,31 @@ class PlayScreen extends JPanel implements KeyListener {
     }
 
     private void initItemList() {
-        ITEM_LIST.put(0, new GoblinMinerCorpse());
+        ITEM_LIST.put(0, new MiningGnomeCorpse());
+    }
+
+    private void showMap() {
+        this.setLayout(new BorderLayout());
+        this.add(map, BorderLayout.CENTER);
+        this.add(stats, BorderLayout.SOUTH);
+        this.add(messages, BorderLayout.NORTH);
+    }
+
+    private void toggleInventory() {
+        if (!inventoryIsActive) {
+            this.remove(map);
+            this.add(inventoryScreen, BorderLayout.CENTER);
+            repaint();
+            inventoryScreen.repaint();
+            inventoryIsActive = true;
+        }
+        else {
+            this.remove(inventoryScreen);
+            this.add(map, BorderLayout.CENTER);
+            repaint();
+            map.repaint();
+            inventoryIsActive = false;
+        }
     }
 
 }

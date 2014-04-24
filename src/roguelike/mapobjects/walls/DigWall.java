@@ -1,7 +1,6 @@
-package roguelike.walls;
+package roguelike.mapobjects.walls;
 
 
-import roguelike.walls.Wall;
 import java.awt.Color;
 
 /*
@@ -14,11 +13,10 @@ import java.awt.Color;
  *
  * @author otso
  */
-public class SolidWall extends Wall{
-    
-    public SolidWall() {
-        this.diggable = false;
-        this.mapColor = Color.GRAY;
-        this.diggable = false;
-    } 
+public class DigWall extends Wall{
+
+    public DigWall() {
+        this.diggable = true;
+        this.mapColor = Color.LIGHT_GRAY;
+    }
 }

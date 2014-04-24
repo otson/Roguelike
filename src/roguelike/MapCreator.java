@@ -2,20 +2,20 @@ package roguelike;
 
 import java.util.HashMap;
 import java.util.Random;
-import roguelike.walls.DigWall;
-import roguelike.walls.DigWallCross;
-import roguelike.walls.DigWallDownLeft;
-import roguelike.walls.DigWallDownRight;
-import roguelike.walls.DigWallHorizontal;
-import roguelike.walls.DigWallMiddle;
-import roguelike.walls.DigWallTDown;
-import roguelike.walls.DigWallTLeft;
-import roguelike.walls.DigWallTRight;
-import roguelike.walls.DigWallTUp;
-import roguelike.walls.DigWallUpLeft;
-import roguelike.walls.DigWallUpRight;
-import roguelike.walls.DigWallVertical;
-import roguelike.walls.SolidWall;
+import roguelike.mapobjects.walls.DigWall;
+import roguelike.mapobjects.walls.DigWallCross;
+import roguelike.mapobjects.walls.DigWallDownLeft;
+import roguelike.mapobjects.walls.DigWallDownRight;
+import roguelike.mapobjects.walls.DigWallHorizontal;
+import roguelike.mapobjects.walls.DigWallMiddle;
+import roguelike.mapobjects.walls.DigWallTDown;
+import roguelike.mapobjects.walls.DigWallTLeft;
+import roguelike.mapobjects.walls.DigWallTRight;
+import roguelike.mapobjects.walls.DigWallTUp;
+import roguelike.mapobjects.walls.DigWallUpLeft;
+import roguelike.mapobjects.walls.DigWallUpRight;
+import roguelike.mapobjects.walls.DigWallVertical;
+import roguelike.mapobjects.walls.SolidWall;
 
 /**
  *
@@ -257,8 +257,7 @@ public class MapCreator {
 
     public final void createLevel(int level) {
         Tile[][] tileMap = new Tile[width][height];
-        System.out.println("Use .length for maximum x, [0].length for maximum y");
-        System.out.println("x max: " + tileMap.length + " y max: " + tileMap[0].length);
+        //System.out.println("Use .length for maximum x, [0].length for maximum y");
         generateBorders(tileMap);
         generateRandomness(tileMap, WALL_PERCENTAGE);
         generateCaves(tileMap, 25, 5, 4);

@@ -1,6 +1,7 @@
-package roguelike;
+package roguelike.mapobjects;
 
 import java.awt.Color;
+import roguelike.Creature;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
