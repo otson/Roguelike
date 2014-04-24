@@ -34,6 +34,8 @@ public abstract class Creature {
     protected boolean[][] seen;
     protected boolean[][] currentlySeen;
     protected boolean seesPlayer;
+    protected int lastSeenPlayerX = -1;
+    protected int lastSeenPlayerY = -1;
     protected int level;
 
 
@@ -52,7 +54,7 @@ public abstract class Creature {
         regenAmount = 1;
         movesLeft = movesPerTurn;
         canDig = false;
-        visionDistance = 20;
+        visionDistance = 15;
         seesPlayer = false;
         initializeVisionArrays();
     }
@@ -98,8 +100,11 @@ public abstract class Creature {
         for(i=0;i<visionDistance;i++)
         {
             seen[(int)ox][(int)oy] = true;
-            if(tileMap[(int)ox][(int)oy].hasPlayer())
+            if(tileMap[(int)ox][(int)oy].hasPlayer()){
                     seesPlayer = true;
+                    lastSeenPlayerX = tileMap[(int)ox][(int)oy].getCreature().x;
+                    lastSeenPlayerY = tileMap[(int)ox][(int)oy].getCreature().y;
+            }
             if(tileMap[(int)ox][(int)oy].blocksVision())
                 return;
             ox+=x;
@@ -124,7 +129,9 @@ public abstract class Creature {
                 this.x +=x;
                 this.y +=y;
                 action();
-            } 
+            }
+            else
+                wander();
     }
     
     protected void wander(){

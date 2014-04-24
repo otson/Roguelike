@@ -24,9 +24,6 @@ import roguelike.walls.SolidWall;
 public class MapCreator {
 
     private final int WALL_PERCENTAGE = 45;
-    private final int CAVE_ROUNDS = 5;
-    private final int BIRTH = 5;
-    private final int STAY_ALIVE = 4;
     private int mapRows;
     private int mapColumns;
     private int z;
@@ -37,7 +34,7 @@ public class MapCreator {
         this.z = level;
         this.mapRows = MAP_ROWS;
         this.mapColumns = MAP_COLUMNS;
-        createLevels(500);
+        createLevels(10);
 
     }
     private void createLevels(int count){

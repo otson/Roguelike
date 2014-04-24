@@ -23,7 +23,7 @@ class Tile {
         this.mapObject = mapObject;
         creature = null;
         seen = false;
-        currentlySeen = false;
+        currentlySeen = true;
     }
     
     public boolean isNotOccupied(){

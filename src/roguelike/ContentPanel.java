@@ -27,8 +27,8 @@ public class ContentPanel extends JPanel implements KeyListener{
     
     private final int STATS_HEIGHT = 60;
     private final int MESSAGES_HEIGHT = 60;
-    private int MAP_COLUMNS = 80;
-    private int MAP_ROWS = 24;
+    private int MAP_COLUMNS = 120;
+    private int MAP_ROWS = 40;
     private final Color TEXT_COLOR = Color.WHITE;
     private final Color BACKGROUND_COLOR = Color.BLACK;
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);

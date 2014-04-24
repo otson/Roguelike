@@ -22,6 +22,11 @@ public abstract class HostileCreature extends Creature{
 
     @Override
     protected void hunt() {
+        if(this.x == this.lastSeenPlayerX && this.y == this.lastSeenPlayerY){
+            this.lastSeenPlayerY = -1;
+            this.lastSeenPlayerX = -1;
+        }
+        
         if(seesPlayer){
             if(movesLeft > 0){
                 int dirX = GetRelativePlayerX();
@@ -34,6 +39,17 @@ public abstract class HostileCreature extends Creature{
                 else
                     move(dirX, dirY);
             }
+        }
+        else if(this.lastSeenPlayerX != -1 && this.lastSeenPlayerY != -1){
+            int dirX = GetLastSeenPlayerX();
+            int dirY = GetLastSeenPlayerY();
+            
+            if(canDig && tileMap[x+dirX][y+dirY].isDiggable())
+                    dig(dirX, dirY);
+            else if(tileMap[x+dirX][y+dirY].hasPlayer())
+                attack(this, player);
+            else
+                move(dirX, dirY);
         }
         else
            wander();     
@@ -52,6 +68,24 @@ public abstract class HostileCreature extends Creature{
         if(player.getY() > y)
             return 1;
         else if(player.getY() < y)
+            return -1;
+        else
+            return 0;
+    }
+    
+    private int GetLastSeenPlayerX() {
+        if(this.lastSeenPlayerX > x)
+            return 1;
+        else if(this.lastSeenPlayerX < x)
+            return -1;
+        else
+            return 0;
+    }
+    
+    private int GetLastSeenPlayerY() {
+        if(this.lastSeenPlayerY > y)
+            return 1;
+        else if(this.lastSeenPlayerY < y)
             return -1;
         else
             return 0;

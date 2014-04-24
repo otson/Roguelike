@@ -24,9 +24,9 @@ public class Player extends Creature{
         this.mapCreator = mapCreator;
         this.glyph = '@';
         this.attack = 10;
-        this.defense = 1;
+        this.defense = 2;
         this.maxHealth = 100;
-        this.movesPerTurn = 1;
+        this.movesPerTurn = 2;
         this.turnsToRegenerate = 2;
         this.regenAmount = 1;
         this.movesLeft = this.movesPerTurn;
@@ -34,7 +34,7 @@ public class Player extends Creature{
         this.color = Color.WHITE;
         this.canDig = true;
         this.name = "You";
-        eyesOpen = true;
+        this.eyesOpen = true;
         this.visionDistance = 80;
         this.mapCreator = mapCreator;
         
@@ -59,6 +59,7 @@ public class Player extends Creature{
     
     @Override
     protected void move(int x, int y){
+        System.out.println("x: "+this.x+" y:"+this.y);
             if(visionDistance == 1 && !tileMap[this.x+x][this.y+y].isWalkable() && !tileMap[this.x+x][this.y+y].isSeen()){
                 setSeenByTouch(x,y);
             }
@@ -103,7 +104,7 @@ public class Player extends Creature{
     
     @Override
     public void FOV(){
-        resetCurrentVision();
+        //resetCurrentVision();
         float xx,yy;
         int i;
         for(i=0;i<360;i+=1) // how many rays of light
