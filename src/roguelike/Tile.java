@@ -15,11 +15,15 @@ class Tile {
     private Creature lastSeenCreature;
     private boolean seen;
     private boolean currentlySeen;
+    private int x;
+    private int y;
     
     public Tile(){ 
     }
     
     public Tile(MapObject mapObject, int x, int y){
+        this.x = x;
+        this.y = y;
         this.mapObject = mapObject;
         creature = null;
         seen = false;

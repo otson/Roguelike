@@ -5,14 +5,10 @@ package roguelike;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
@@ -21,14 +17,14 @@ import javax.swing.JPanel;
  *
  * @author otso
  */
-public class ContentPanel extends JPanel implements KeyListener{
+public class ContentPanel extends JPanel implements KeyListener {
 
     private JPanel statsArea;
-    
+
     private final int STATS_HEIGHT = 60;
     private final int MESSAGES_HEIGHT = 60;
-    private int MAP_COLUMNS = 120;
-    private int MAP_ROWS = 40;
+    private final int MAP_WIDTH = 200;
+    private final int MAP_HEIGHT = 40;
     private final Color TEXT_COLOR = Color.WHITE;
     private final Color BACKGROUND_COLOR = Color.BLACK;
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);
@@ -42,8 +38,8 @@ public class ContentPanel extends JPanel implements KeyListener{
     private Messages messages;
     private int startLevel = 1;
 
-    public ContentPanel(){
-        mapCreator = new MapCreator(startLevel, MAP_ROWS, MAP_COLUMNS);
+    public ContentPanel() {
+        mapCreator = new MapCreator(startLevel, MAP_WIDTH, MAP_HEIGHT);
         initMessages();
         addPlayer();
         initStats();
@@ -59,7 +55,7 @@ public class ContentPanel extends JPanel implements KeyListener{
     private void addPlayer() {
         player = new Player(mapCreator.getLevels().get(startLevel), player, messages, mapCreator);
         player.setLevel(startLevel);
-        player.FOV();
+        //player.FOV();
     }
 
     private void displayInitialMap() {
@@ -70,9 +66,6 @@ public class ContentPanel extends JPanel implements KeyListener{
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setLayout(new BorderLayout());
-        GridLayout grid = new GridLayout(MAP_ROWS, MAP_COLUMNS);
-        mapPanel = new JPanel(grid);
-        mapPanel.setBorder(null);
         map = new Map(mapCreator.getLevels(), player);
         this.add(map, BorderLayout.CENTER);
         this.add(stats, BorderLayout.SOUTH);
@@ -97,93 +90,101 @@ public class ContentPanel extends JPanel implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()){
-            case KeyEvent.VK_ESCAPE: System.exit(0); 
-            break; 
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_ESCAPE:
+                System.exit(0);
+                break;
             case KeyEvent.VK_NUMPAD7:
-                if(digEvent){
-                   player.dig(-1, -1); 
-                   digEvent = false;
+                if (digEvent) {
+                    player.dig(-1, -1);
+                    digEvent = false;
                 }
-                else{
+                else {
                     player.move(-1, -1);
                 }
                 break;
-            case KeyEvent.VK_NUMPAD8: 
-                if(digEvent){
-                   player.dig(-1, 0);  
-                   digEvent = false;
+            case KeyEvent.VK_NUMPAD8:
+                if (digEvent) {
+                    player.dig(0, -1);
+                    digEvent = false;
                 }
-                else
-                    player.move(-1,  0); 
+                else {
+                    player.move(0, -1);
+                }
                 break;
             case KeyEvent.VK_NUMPAD9:
-                if(digEvent){
-                   player.dig(-1, 1);  
-                   digEvent = false;
+                if (digEvent) {
+                    player.dig(1, -1);
+                    digEvent = false;
                 }
-                else
-                    player.move(-1,  1); 
+                else {
+                    player.move(1, -1);
+                }
                 break;
             case KeyEvent.VK_NUMPAD4:
-                if(digEvent){
-                   player.dig(0, -1); 
-                   digEvent = false;
+                if (digEvent) {
+                    player.dig(-1, 0);
+                    digEvent = false;
                 }
-                else
-                    player.move(0, -1); 
-                break;
-            case KeyEvent.VK_NUMPAD5: 
-                player.Wait(1); 
-                break;
-            case KeyEvent.VK_NUMPAD6: 
-                if(digEvent){
-                   player.dig(0, 1); 
-                   digEvent = false;
+                else {
+                    player.move(-1, 0);
                 }
-                else
-                    player.move(0,  1); 
+                break;
+            case KeyEvent.VK_NUMPAD5:
+                player.Wait(1);
+                break;
+            case KeyEvent.VK_NUMPAD6:
+                if (digEvent) {
+                    player.dig(1, 0);
+                    digEvent = false;
+                }
+                else {
+                    player.move(1, 0);
+                }
                 break;
             case KeyEvent.VK_NUMPAD1:
-                if(digEvent){
-                   player.dig(1, -1);  
-                   digEvent = false;
+                if (digEvent) {
+                    player.dig(-1, 1);
+                    digEvent = false;
                 }
-                else
-                    player.move(1, -1); 
+                else {
+                    player.move(-1, 1);
+                }
                 break;
-            case KeyEvent.VK_NUMPAD2: 
-                if(digEvent){
-                   player.dig(1, 0); 
-                   digEvent = false;
+            case KeyEvent.VK_NUMPAD2:
+                if (digEvent) {
+                    player.dig(0, 1);
+                    digEvent = false;
                 }
-                else
-                    player.move(1, 0); 
+                else {
+                    player.move(0, 1);
+                }
 
                 break;
-            case KeyEvent.VK_NUMPAD3: 
-                if(digEvent){
-                   player.dig(1, 1);  
-                   digEvent = false;
+            case KeyEvent.VK_NUMPAD3:
+                if (digEvent) {
+                    player.dig(1, 1);
+                    digEvent = false;
                 }
-                else
-                    player.move(1, 1); 
+                else {
+                    player.move(1, 1);
+                }
                 break;
-            case KeyEvent.VK_D: 
+            case KeyEvent.VK_D:
                 messages.digDirection();
                 digEvent = true;
                 break;
-            case KeyEvent.VK_C: 
-                player.toggleEyes(); 
+            case KeyEvent.VK_C:
+                player.toggleEyes();
                 break;
-            case KeyEvent.VK_UP: 
+            case KeyEvent.VK_UP:
                 player.goUp();
                 break;
-            case KeyEvent.VK_DOWN: 
+            case KeyEvent.VK_DOWN:
                 player.goDown();
                 break;
         }
-        if(player.getMovesLeft() == 0){
+        if (player.getMovesLeft() == 0) {
             turnEnd();
         }
         map.repaint();
@@ -208,7 +209,5 @@ public class ContentPanel extends JPanel implements KeyListener{
         player.FOV();
         player.checkRegen();
     }
-
-    
 
 }

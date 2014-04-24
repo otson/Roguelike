@@ -59,7 +59,6 @@ public class Player extends Creature{
     
     @Override
     protected void move(int x, int y){
-        System.out.println("x: "+this.x+" y:"+this.y);
             if(visionDistance == 1 && !tileMap[this.x+x][this.y+y].isWalkable() && !tileMap[this.x+x][this.y+y].isSeen()){
                 setSeenByTouch(x,y);
             }
@@ -68,6 +67,7 @@ public class Player extends Creature{
                 tileMap[this.x+x][this.y+y].setCreature(this);
                 this.x +=x;
                 this.y +=y;
+                
                 action();
             }
             else if(!tileMap[this.x+x][this.y+y].isNotOccupied()){
@@ -104,7 +104,7 @@ public class Player extends Creature{
     
     @Override
     public void FOV(){
-        //resetCurrentVision();
+        resetCurrentVision();
         float xx,yy;
         int i;
         for(i=0;i<360;i+=1) // how many rays of light

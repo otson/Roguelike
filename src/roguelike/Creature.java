@@ -64,12 +64,14 @@ public abstract class Creature {
         int count = 0;
         while(notSet){
             count++;
+            
             int xx = rand.nextInt(tileMap.length-1)+1;
             int yy = rand.nextInt(tileMap[0].length-1)+1;
             if(tileMap[xx][yy].isNotOccupied() && tileMap[xx][yy].isWalkable()){    
                 x = xx;
                 y = yy;
                 tileMap[xx][yy].setCreature(this);
+                System.out.println("This.x: "+this.x+" this.y: "+this.y);
                 notSet = false;
                 FOV();
                 
@@ -113,9 +115,9 @@ public abstract class Creature {
     }
     public void resetCurrentVision() {
         seesPlayer = false;
-        for(int i = 0; i>seen.length;i++){
-            for(int j = 0; j>seen[0].length; j++){
-                currentlySeen[i][j] = false;
+        for(int yy = 0; yy>seen.length;yy++){
+            for(int xx = 0; xx>seen[yy].length; xx++){
+                currentlySeen[xx][yy] = false;
             }
         }
     }
@@ -236,10 +238,10 @@ public abstract class Creature {
     }
 
     private void initializeVisionArrays() {
-        for(int i = 0; i>seen.length;i++){
-            for(int j = 0; j>seen[0].length; j++){
-                seen[i][j] = false;
-                currentlySeen[i][j] = false;
+        for(int xx = 0; xx>seen.length;xx++){
+            for(int yy = 0; yy>seen[xx].length; yy++){
+                seen[xx][yy] = false;
+                currentlySeen[xx][yy] = false;
             }
         }
     }

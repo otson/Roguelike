@@ -32,6 +32,11 @@ public class Roguelike2 {
     }
     
     private static void createAndShowGUI() {
+        
+        int[][] array = new int[][]{{1,2,3},{3,4,5},{7,8,9}};
+        System.out.println(array[2][0]);
+        
+    
         JFrame frame = new JFrame();
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

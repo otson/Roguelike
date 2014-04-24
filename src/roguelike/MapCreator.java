@@ -24,16 +24,14 @@ import roguelike.walls.SolidWall;
 public class MapCreator {
 
     private final int WALL_PERCENTAGE = 45;
-    private int mapRows;
-    private int mapColumns;
-    private int z;
+    private int width;
+    private int height;
     private Random rand = new Random();
     private HashMap<Integer, Tile[][]> levels = new HashMap<>();
 
-    MapCreator(int level, int MAP_ROWS, int MAP_COLUMNS) {
-        this.z = level;
-        this.mapRows = MAP_ROWS;
-        this.mapColumns = MAP_COLUMNS;
+    MapCreator(int level, int width, int height) {
+        this.width = width;
+        this.height = height;
         createLevels(10);
 
     }
@@ -47,20 +45,20 @@ public class MapCreator {
     
     
     private void generateBorders(Tile[][] tileMap){
-        for(int i = 0; i<tileMap.length; i++){
-            for(int j = 0; j<tileMap[i].length; j++){
-                tileMap[i][j] = new Tile(new SolidWall(), i, j);
+        for(int x = 0; x<tileMap.length; x++){
+            for(int y = 0; y<tileMap[x].length; y++){
+                tileMap[x][y] = new Tile(new SolidWall(), x, y);
             }
         }
     }
     
     private void generateRandomness(Tile[][] tileMap, int wallPercentage){
-        for(int i = 1; i+1<tileMap.length; i++){
-            for(int j = 1; j+1<tileMap[i].length; j++){
+        for(int x = 1; x+1<tileMap.length; x++){
+            for(int y = 1; y+1<tileMap[x].length; y++){
                 if(rand.nextInt(101) > wallPercentage)
-                    tileMap[i][j] = new Tile(new Floor(), i, j);
+                    tileMap[x][y] = new Tile(new Floor(), x, y);
                 else{
-                    tileMap[i][j] = new Tile(new DigWall(), i, j);
+                    tileMap[x][y] = new Tile(new DigWall(), x, y);
                 }
                 
             }
@@ -73,37 +71,37 @@ public class MapCreator {
         int times = 0;
         
         while(times < rounds){
-            for(int i = 1; i+1<tileMap.length; i++){
-                for(int j = 1; j+1<tileMap[i].length; j++){
-                    if(tileMap[i-1][j-1].getMapObject().isWall())
+            for(int x = 1; x+1<tileMap.length; x++){
+                for(int y = 1; y+1<tileMap[x].length; y++){
+                    if(tileMap[x-1][y-1].getMapObject().isWall())
                         count++;
-                    if(tileMap[i-1][j].getMapObject().isWall())
+                    if(tileMap[x-1][y].getMapObject().isWall())
                         count++;
-                    if(tileMap[i-1][j+1].getMapObject().isWall())
+                    if(tileMap[x-1][y+1].getMapObject().isWall())
                         count++;
-                    if(tileMap[i][j-1].getMapObject().isWall())
+                    if(tileMap[x][y-1].getMapObject().isWall())
                         count++;
-                    if(tileMap[i][j+1].getMapObject().isWall())
+                    if(tileMap[x][y+1].getMapObject().isWall())
                         count++;
-                    if(tileMap[i+1][j-1].getMapObject().isWall())
+                    if(tileMap[x+1][y-1].getMapObject().isWall())
                         count++;
-                    if(tileMap[i+1][j].getMapObject().isWall())
+                    if(tileMap[x+1][y].getMapObject().isWall())
                         count++;
-                    if(tileMap[i+1][j+1].getMapObject().isWall())
+                    if(tileMap[x+1][y+1].getMapObject().isWall())
                         count++;
-                    wallCount[i][j] = count;
+                    wallCount[x][y] = count;
                     count = 0;
                 }
             }
-            for(int i = 1; i+1<tileMap.length; i++){
-                for(int j = 1; j+1<tileMap[i].length; j++){
-                    if(tileMap[i][j].getMapObject().isWall()){
-                        if(wallCount[i][j] < alive )               
-                            tileMap[i][j] = new Tile(new Floor(), i, j);
+            for(int x = 1; x+1<tileMap.length; x++){
+                for(int y = 1; y+1<tileMap[x].length; y++){
+                    if(tileMap[x][y].getMapObject().isWall()){
+                        if(wallCount[x][y] < alive )               
+                            tileMap[x][y] = new Tile(new Floor(), x, y);
                     }
-                    else if(!tileMap[i][j].getMapObject().isWall()){
-                        if(wallCount[i][j] >= birth)
-                            tileMap[i][j] = new Tile(new DigWall(), i, j); 
+                    else if(!tileMap[x][y].getMapObject().isWall()){
+                        if(wallCount[x][y] >= birth)
+                            tileMap[x][y] = new Tile(new DigWall(), x, y); 
                     }
                 }
             }
@@ -122,75 +120,75 @@ public class MapCreator {
         boolean downRight;
         
         
-        for(int i = 1; i+1<tileMap.length; i++){
-                for(int j = 1; j+1<tileMap[i].length; j++){
-                    if(tileMap[i][j].getMapObject().isWall()){
-                        upLeft = tileMap[i-1][j-1].getMapObject().isWall();
-                        upMid = tileMap[i-1][j].getMapObject().isWall();
-                        upRight = tileMap[i-1][j+1].getMapObject().isWall();
-                        midLeft = tileMap[i][j-1].getMapObject().isWall();
-                        midRight = tileMap[i][j+1].getMapObject().isWall();
-                        downLeft = tileMap[i+1][j-1].getMapObject().isWall();
-                        downMid = tileMap[i+1][j].getMapObject().isWall();
-                        downRight = tileMap[i+1][j+1].getMapObject().isWall();
+        for(int x = 1; x+1<tileMap.length; x++){
+            for(int y = 1; y+1<tileMap[x].length; y++){
+                    if(tileMap[x][y].getMapObject().isWall()){
+                        upLeft = tileMap[x-1][y-1].getMapObject().isWall();
+                        upMid = tileMap[x-1][y].getMapObject().isWall();
+                        upRight = tileMap[x-1][y+1].getMapObject().isWall();
+                        midLeft = tileMap[x][y-1].getMapObject().isWall();
+                        midRight = tileMap[x][y+1].getMapObject().isWall();
+                        downLeft = tileMap[x+1][y-1].getMapObject().isWall();
+                        downMid = tileMap[x+1][y].getMapObject().isWall();
+                        downRight = tileMap[x+1][y+1].getMapObject().isWall();
                         
                         if(midRight && midLeft && ((!upMid && downLeft && downRight) || (!downMid && upLeft && upRight)))
-                            tileMap[i][j] = new Tile(new DigWallHorizontal(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallHorizontal(), x, y);
                         
                         else if(upMid && downMid && ((!midRight && upLeft && downLeft) || (!midLeft && upRight && downRight)))
-                            tileMap[i][j] = new Tile(new DigWallVertical(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallVertical(), x, y);
                         
                         else if(upLeft && upMid && upRight && midLeft && midRight && downLeft && downMid && downRight)
-                            tileMap[i][j] = new Tile(new DigWallMiddle(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallMiddle(), x, y);
                         
                         // corners
                         else if(downMid && midRight && !upMid && !midLeft)
-                            tileMap[i][j] = new Tile(new DigWallUpLeft(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallUpLeft(), x, y);
                         
                         else if(downMid && midLeft && !upMid && !midRight)
-                            tileMap[i][j] = new Tile(new DigWallUpRight(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallUpRight(), x, y);
                         
                         else if(upMid && midRight && !downMid && !midLeft)
-                            tileMap[i][j] = new Tile(new DigWallDownLeft(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallDownLeft(), x, y);
                         
                         else if(upMid && midLeft && !downMid && !midRight)
-                            tileMap[i][j] = new Tile(new DigWallDownRight(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallDownRight(), x, y);
                         
                         // crossing
                         
                         else if((!upRight && !downLeft) || (!downRight && !upLeft))
-                            tileMap[i][j] = new Tile(new DigWallCross(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallCross(), x, y);
                         
                         // T corners
                         else if(!upMid)
-                            tileMap[i][j] = new Tile(new DigWallTUp(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallTUp(), x, y);
                         
                         else if(!midRight)
-                            tileMap[i][j] = new Tile(new DigWallTRight(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallTRight(), x, y);
                         
                         else if(!downMid)
-                            tileMap[i][j] = new Tile(new DigWallTDown(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallTDown(), x, y);
                         
                         else if(!midLeft)
-                            tileMap[i][j] = new Tile(new DigWallTLeft(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallTLeft(), x, y);
                         
                         // more corners
                         else if(!downRight)
-                            tileMap[i][j] = new Tile(new DigWallUpLeft(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallUpLeft(), x, y);
                         
                         else if(!downLeft)
-                            tileMap[i][j] = new Tile(new DigWallUpRight(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallUpRight(), x, y);
                         
                         else if(!upRight)
-                            tileMap[i][j] = new Tile(new DigWallDownLeft(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallDownLeft(), x, y);
                         
                         else if(!upLeft)
-                            tileMap[i][j] = new Tile(new DigWallDownRight(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallDownRight(), x, y);
                         
                         
                         
                         else
-                            tileMap[i][j] = new Tile(new DigWallMiddle(), i, j);
+                            tileMap[x][y] = new Tile(new DigWallMiddle(), x, y);
                     }
                 }
         }
@@ -202,7 +200,7 @@ public class MapCreator {
         while(notSet){
             count++;
             int xx = rand.nextInt(tileMap.length-1)+1;
-            int yy = rand.nextInt(tileMap[0].length-1)+1;
+            int yy = rand.nextInt(tileMap[xx].length-1)+1;
             if(tileMap[xx][yy].isNotOccupied() && tileMap[xx][yy].isWalkable()){    
                 tileMap[xx][yy].setMapObject(new UpStairs());
                 notSet = false;
@@ -217,7 +215,7 @@ public class MapCreator {
         while(notSet){
             count++;
             int xx = rand.nextInt(tileMap.length-1)+1;
-            int yy = rand.nextInt(tileMap[0].length-1)+1;
+            int yy = rand.nextInt(tileMap[xx].length-1)+1;
             if(tileMap[xx][yy].isNotOccupied() && tileMap[xx][yy].isWalkable()){    
                 tileMap[xx][yy].setMapObject(new DownStairs());
                 notSet = false;
@@ -234,8 +232,9 @@ public class MapCreator {
     }
 
     public final void createLevel(int level) {
-        this.z = level;
-        Tile[][] tileMap = new Tile[mapRows][mapColumns];
+        Tile[][] tileMap = new Tile[width][height];
+        System.out.println("Use .length for maximum x, [0].length for maximum y");
+        System.out.println("x max: "+tileMap.length+" y max: "+tileMap[0].length);
         generateBorders(tileMap);   
         generateRandomness(tileMap, WALL_PERCENTAGE);
         generateCaves(tileMap, 25, 5, 4);

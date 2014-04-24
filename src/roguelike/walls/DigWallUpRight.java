@@ -13,7 +13,7 @@ package roguelike.walls;
 public class DigWallUpRight extends DigWall{
 
     public DigWallUpRight() {
-        this.mapCharacter = '┐';
+        this.mapCharacter = '└';
     }
     
 }
