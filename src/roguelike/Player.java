@@ -174,30 +174,30 @@ public class Player extends Creature{
             this.tileMap = mapCreator.getLevels().get(level+is);
             if(is>0){ // going up
                 System.out.println("going up");
-                for(int i = 0; i<tileMap.length; i++){
-                    for(int j = 0; j<tileMap[0].length; j++){
-                        if(tileMap[i][j].hasDownStairs()){
+                for(int xx = 0; xx<tileMap.length; xx++){
+                    for(int yy = 0; yy<tileMap[xx].length; yy++){
+                        if(tileMap[xx][yy].hasDownStairs()){
                             mapCreator.getLevels().get(level)[x][y].setCreature(null);
-                            x = i;
-                            y = j;
+                            x = xx;
+                            y = yy;
                             level++;
                             System.out.println("placed downstair location. x, y: "+x+","+y);
-                            tileMap[i][j].setCreature(this);
+                            tileMap[xx][yy].setCreature(this);
                         }    
                     }
                 }
             }
             else{ // going down
                 System.out.println("going down");
-                for(int i = 0; i<tileMap.length; i++){
-                    for(int j = 0; j<tileMap[0].length; j++){
-                        if(tileMap[i][j].hasUpStairs()){
+                for(int xx = 0; xx<tileMap.length; xx++){
+                    for(int yy = 0; yy<tileMap[xx].length; yy++){
+                        if(tileMap[xx][yy].hasUpStairs()){
                             mapCreator.getLevels().get(level)[x][y].setCreature(null);
-                            x = i;
-                            y = j;
+                            x = xx;
+                            y = yy;
                             level--;
                             System.out.println("placed upstair location. x, y: "+x+","+y);
-                            tileMap[i][j].setCreature(this);
+                            tileMap[xx][yy].setCreature(this);
                         }    
                     }
                 }
