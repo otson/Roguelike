@@ -1,6 +1,5 @@
 package roguelike;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,37 +16,36 @@ import javax.swing.JPanel;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author otso
  */
-public class Stats extends JPanel{
-    
-    private Graphics2D og;           
-    private Dimension od = null;           
-    private Image oi = null;   
+public class Stats extends JPanel {
+
+    private Graphics2D og;
+    private Dimension od = null;
+    private Image oi = null;
     private final Font STATS_FONT = new Font("Helvetica", Font.PLAIN, 14);
     private JLabel hpBar;
     private Player player;
     private Color hpBarColor;
-    
+
     Stats(Player player) {
         this.player = player;
-        this.setPreferredSize(new Dimension(50,50));
+        this.setPreferredSize(new Dimension(50, 50));
         this.setBackground(Color.BLACK);
         this.setVisible(true);
         this.setFocusable(false);
-        this.setLayout(new GridLayout(3,6));
+        this.setLayout(new GridLayout(3, 6));
         hpBar = new JLabel("HP");
         hpBar.setFont(STATS_FONT);
-        hpBar.setForeground(Color.BLACK); 
+        hpBar.setForeground(Color.BLACK);
         this.add(hpBar);
-        this.setForeground(Color.WHITE); 
+        this.setForeground(Color.WHITE);
     }
-    
+
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
 
         setDoubleBuffering();
         og.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -57,7 +55,7 @@ public class Stats extends JPanel{
         g.drawImage(oi, 0, 0, this);
 
     }
-    
+
     private void setDoubleBuffering() {
         Dimension d = this.getSize();
         if (d != od || oi == null) {
@@ -67,16 +65,16 @@ public class Stats extends JPanel{
         }
         og.setColor(Color.BLACK);
         og.fillRect(0, 0, d.width, d.height);
-        
+
     }
 
     private void drawHP(Graphics2D og) {
-        double scale = (double)player.currentHealth/(double)player.maxHealth;
+        double scale = (double) player.currentHealth / (double) player.maxHealth;
         //System.out.println("scale: "+scale);
         //System.out.println("r: "+((int)Math.max(scale / 100, 1)*255)+" g: "+((int)(1-Math.max(scale / 100, 1))*255));
-        hpBarColor = new Color((int)(Math.abs(scale-1)*255), (int)((scale)*255), 0);
+        hpBarColor = new Color((int) (Math.abs(scale - 1) * 255), (int) ((scale) * 255), 0);
         og.setColor(hpBarColor);
-        og.fillRect(0, 0, (int) (hpBar.getWidth()*((float)player.currentHealth/(float)player.maxHealth)), hpBar.getHeight());
+        og.fillRect(0, 0, (int) (hpBar.getWidth() * ((float) player.currentHealth / (float) player.maxHealth)), hpBar.getHeight());
     }
-    
+
 }

@@ -1,6 +1,5 @@
 package roguelike;
 
-
 import java.awt.Color;
 
 /**
@@ -17,11 +16,11 @@ class Tile {
     private boolean currentlySeen;
     private int x;
     private int y;
-    
-    public Tile(){ 
+
+    public Tile() {
     }
-    
-    public Tile(MapObject mapObject, int x, int y){
+
+    public Tile(MapObject mapObject, int x, int y) {
         this.x = x;
         this.y = y;
         this.mapObject = mapObject;
@@ -29,19 +28,22 @@ class Tile {
         seen = false;
         currentlySeen = true;
     }
-    
-    public boolean isNotOccupied(){
+
+    public boolean isNotOccupied() {
         return creature == null;
     }
-    
-    public boolean isWalkable(){
+
+    public boolean isWalkable() {
         return mapObject.isWalkable();
     }
-    public boolean isDiggable(){
-        if(mapObject.isWall()){
+
+    public boolean isDiggable() {
+        if (mapObject.isWall()) {
             return mapObject.isDiggable();
         }
-        else return false;
+        else {
+            return false;
+        }
     }
 
     public MapObject getMapObject() {
@@ -52,9 +54,10 @@ class Tile {
         this.mapObject = mapObject;
     }
 
-    public boolean hasPlayer(){
-        if(creature == null)
+    public boolean hasPlayer() {
+        if (creature == null) {
             return false;
+        }
         return creature.getName().equals("You");
     }
 
@@ -65,24 +68,29 @@ class Tile {
     public void setCreature(Creature creature) {
         this.creature = creature;
     }
-    
-    public Color getColor(){
-        if(lastSeenCreature != null && currentlySeen)
+
+    public Color getColor() {
+        if (lastSeenCreature != null && currentlySeen) {
             return lastSeenCreature.getColor();
-        else
+        }
+        else {
             return lastSeenMapObject.getMapColor();
+        }
     }
-    
-    public char getGlyph(){
-        if(lastSeenCreature != null && currentlySeen)
+
+    public char getGlyph() {
+        if (lastSeenCreature != null && currentlySeen) {
             return lastSeenCreature.getGlyph();
-        else
+        }
+        else {
             return lastSeenMapObject.getMapCharacter();
+        }
     }
 
     public boolean isSeen() {
         return seen;
     }
+
     public boolean isCurrentlySeen() {
         return currentlySeen;
     }
@@ -93,23 +101,24 @@ class Tile {
         this.lastSeenCreature = creature;
         this.lastSeenMapObject = mapObject;
     }
-    public boolean blocksVision(){
+
+    public boolean blocksVision() {
         return !mapObject.isSeeThrough();
     }
 
     void setCurrentlySeen(boolean b) {
         this.currentlySeen = b;
     }
-    
-    public boolean hasStairs(){
+
+    public boolean hasStairs() {
         return mapObject instanceof Stairs;
     }
-    
-    public boolean hasUpStairs(){
+
+    public boolean hasUpStairs() {
         return mapObject instanceof UpStairs;
     }
-    
-    public boolean hasDownStairs(){
+
+    public boolean hasDownStairs() {
         return mapObject instanceof DownStairs;
     }
 }

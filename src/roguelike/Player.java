@@ -1,6 +1,5 @@
 package roguelike;
 
-
 import java.awt.Color;
 import roguelike.walls.dugWall;
 
@@ -9,16 +8,15 @@ import roguelike.walls.dugWall;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author otso
  */
-public class Player extends Creature{
-    
+public class Player extends Creature {
+
     private boolean eyesOpen;
     private MapCreator mapCreator;
-    
+
     public Player(Tile[][] tileMap, Player player, Messages messages, MapCreator mapCreator) {
         super(tileMap, player, messages);
         this.mapCreator = mapCreator;
@@ -37,52 +35,53 @@ public class Player extends Creature{
         this.eyesOpen = true;
         this.visionDistance = 80;
         this.mapCreator = mapCreator;
-        
+
         addToMap();
     }
-    
-  
+
     @Override
     void dig(int x, int y) {
-        if(tileMap[this.x+x][this.y+y].getMapObject().isWall()){
-            if(tileMap[this.x+x][this.y+y].getMapObject().isDiggable()){
-                tileMap[this.x+x][this.y+y].setMapObject(new dugWall());
+        if (tileMap[this.x + x][this.y + y].getMapObject().isWall()) {
+            if (tileMap[this.x + x][this.y + y].getMapObject().isDiggable()) {
+                tileMap[this.x + x][this.y + y].setMapObject(new dugWall());
                 messages.wallDug();
             }
-            else
+            else {
                 messages.wallDugFailed();
+            }
         }
-        else
+        else {
             messages.digAir();
+        }
         action();
     }
-    
+
     @Override
-    protected void move(int x, int y){
-            if(visionDistance == 1 && !tileMap[this.x+x][this.y+y].isWalkable() && !tileMap[this.x+x][this.y+y].isSeen()){
-                setSeenByTouch(x,y);
-            }
-            if(tileMap[this.x+x][this.y+y].isNotOccupied() && tileMap[this.x+x][this.y+y].isWalkable()){
-                tileMap[this.x][this.y].setCreature(null);
-                tileMap[this.x+x][this.y+y].setCreature(this);
-                this.x +=x;
-                this.y +=y;
-                
-                action();
-            }
-            else if(!tileMap[this.x+x][this.y+y].isNotOccupied()){
-                attack(this, tileMap[this.x+x][this.y+y].getCreature());
-                action();
-            }
-            
+    protected void move(int x, int y) {
+        if (visionDistance == 1 && !tileMap[this.x + x][this.y + y].isWalkable() && !tileMap[this.x + x][this.y + y].isSeen()) {
+            setSeenByTouch(x, y);
+        }
+        if (tileMap[this.x + x][this.y + y].isNotOccupied() && tileMap[this.x + x][this.y + y].isWalkable()) {
+            tileMap[this.x][this.y].setCreature(null);
+            tileMap[this.x + x][this.y + y].setCreature(this);
+            this.x += x;
+            this.y += y;
+
+            action();
+        }
+        else if (!tileMap[this.x + x][this.y + y].isNotOccupied()) {
+            attack(this, tileMap[this.x + x][this.y + y].getCreature());
+            action();
+        }
+
     }
-    
+
     @Override
-    protected void action(){
+    protected void action() {
         movesLeft--;
         FOV();
     }
-    
+
     @Override
     public void resetCurrentVision() {
         for (Tile[] tileMap1 : tileMap) {
@@ -92,49 +91,52 @@ public class Player extends Creature{
         }
 
     }
-    public void toggleEyes(){
+
+    public void toggleEyes() {
         eyesOpen = !eyesOpen;
-        if(eyesOpen)
+        if (eyesOpen) {
             visionDistance = 80;
-        else
+        }
+        else {
             visionDistance = 1;
+        }
         messages.toggleEyes(eyesOpen);
         action();
     }
-    
+
     @Override
-    public void FOV(){
+    public void FOV() {
         resetCurrentVision();
-        float xx,yy;
+        float xx, yy;
         int i;
-        for(i=0;i<360;i+=1) // how many rays of light
+        for (i = 0; i < 360; i += 1) // how many rays of light
         {
-            xx=(float) Math.cos((float)i*0.01745f);
-            yy=(float) Math.sin((float)i*0.01745f);
-            DoFov(xx,yy);
+            xx = (float) Math.cos((float) i * 0.01745f);
+            yy = (float) Math.sin((float) i * 0.01745f);
+            DoFov(xx, yy);
         }
     }
 
     @Override
-    void DoFov(float x,float y){
+    void DoFov(float x, float y) {
         int i;
-        float ox,oy;
-        ox = (float)this.x+0.5f;
-        oy = (float)this.y+0.5f;
-        for(i=0;i<visionDistance;i++)
-        {
-            tileMap[(int)ox][(int)oy].setSeen(true); 
-            if(tileMap[(int)ox][(int)oy].blocksVision())
+        float ox, oy;
+        ox = (float) this.x + 0.5f;
+        oy = (float) this.y + 0.5f;
+        for (i = 0; i < visionDistance; i++) {
+            tileMap[(int) ox][(int) oy].setSeen(true);
+            if (tileMap[(int) ox][(int) oy].blocksVision()) {
                 return;
-            ox+=x;
-            oy+=y;
+            }
+            ox += x;
+            oy += y;
         }
     }
-    void setSeenByTouch(int x, int y){
-        tileMap[this.x+x][this.y+y].setSeen(true);
+
+    void setSeenByTouch(int x, int y) {
+        tileMap[this.x + x][this.y + y].setSeen(true);
         messages.findWallBlind();
     }
-    
 
     @Override
     void hunt() {
@@ -142,63 +144,67 @@ public class Player extends Creature{
     }
 
     void goUp() {
-        if(tileMap[this.x][this.y].hasStairs()){
-            if(tileMap[this.x][this.y].hasUpStairs()){
+        if (tileMap[this.x][this.y].hasStairs()) {
+            if (tileMap[this.x][this.y].hasUpStairs()) {
                 messages.goingUpStairs();
                 useStairs(1);
             }
-            else
+            else {
                 messages.goingUpDownstairs();
+            }
         }
-        else
+        else {
             messages.goingUpNoStairs();
-        
+        }
+
     }
 
     void goDown() {
-        if(tileMap[this.x][this.y].hasStairs()){
-            if(tileMap[this.x][this.y].hasDownStairs()){
+        if (tileMap[this.x][this.y].hasStairs()) {
+            if (tileMap[this.x][this.y].hasDownStairs()) {
                 messages.goingDownStairs();
                 useStairs(-1);
             }
-            else
+            else {
                 messages.goingDownUpstairs();
+            }
         }
-        else
+        else {
             messages.goingDownNoStairs();
+        }
     }
 
     private void useStairs(int is) {
-        if(mapCreator.getLevels().containsKey(level+is)){
-            
-            this.tileMap = mapCreator.getLevels().get(level+is);
-            if(is>0){ // going up
+        if (mapCreator.getLevels().containsKey(level + is)) {
+
+            this.tileMap = mapCreator.getLevels().get(level + is);
+            if (is > 0) { // going up
                 System.out.println("going up");
-                for(int xx = 0; xx<tileMap.length; xx++){
-                    for(int yy = 0; yy<tileMap[xx].length; yy++){
-                        if(tileMap[xx][yy].hasDownStairs()){
+                for (int xx = 0; xx < tileMap.length; xx++) {
+                    for (int yy = 0; yy < tileMap[xx].length; yy++) {
+                        if (tileMap[xx][yy].hasDownStairs()) {
                             mapCreator.getLevels().get(level)[x][y].setCreature(null);
                             x = xx;
                             y = yy;
                             level++;
-                            System.out.println("placed downstair location. x, y: "+x+","+y);
+                            System.out.println("placed downstair location. x, y: " + x + "," + y);
                             tileMap[xx][yy].setCreature(this);
-                        }    
+                        }
                     }
                 }
             }
-            else{ // going down
+            else { // going down
                 System.out.println("going down");
-                for(int xx = 0; xx<tileMap.length; xx++){
-                    for(int yy = 0; yy<tileMap[xx].length; yy++){
-                        if(tileMap[xx][yy].hasUpStairs()){
+                for (int xx = 0; xx < tileMap.length; xx++) {
+                    for (int yy = 0; yy < tileMap[xx].length; yy++) {
+                        if (tileMap[xx][yy].hasUpStairs()) {
                             mapCreator.getLevels().get(level)[x][y].setCreature(null);
                             x = xx;
                             y = yy;
                             level--;
-                            System.out.println("placed upstair location. x, y: "+x+","+y);
+                            System.out.println("placed upstair location. x, y: " + x + "," + y);
                             tileMap[xx][yy].setCreature(this);
-                        }    
+                        }
                     }
                 }
             }

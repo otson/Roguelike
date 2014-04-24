@@ -6,22 +6,14 @@
 
 package roguelike.items;
 
-import java.awt.Color;
-
 /**
  *
  * @author otso
  */
-public abstract class Item {
-    
-    protected char glyph;
-    protected Color color;
-    protected int id;
-    protected int weight;
-    protected int value;
+public abstract class Consumable extends Item{
 
-    public Item() {
+    public Consumable() {
     }
-    
-    
+
+ 
 }

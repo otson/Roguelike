@@ -1,6 +1,5 @@
 package roguelike;
 
-
 import java.awt.Color;
 
 /*
@@ -8,13 +7,12 @@ import java.awt.Color;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author otso
  */
-public class Floor extends MapObject{
-    
+public class Floor extends MapObject {
+
     protected boolean floor;
 
     public Floor() {

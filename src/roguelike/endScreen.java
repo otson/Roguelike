@@ -3,22 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package roguelike;
 
-package roguelike.items;
-
-import java.awt.Color;
+import javax.swing.JPanel;
 
 /**
  *
  * @author otso
  */
-public class Sword extends Weapon{
+class endScreen extends JPanel {
 
-    public Sword() {
-        this.color = Color.RED;
-        this.glyph = '\\';
-        this.id = 0;
-    }
-    
-    
 }

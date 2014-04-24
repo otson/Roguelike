@@ -1,6 +1,5 @@
 package roguelike;
 
-
 import java.awt.Color;
 
 /*
@@ -8,13 +7,12 @@ import java.awt.Color;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author otso
  */
 public abstract class MapObject {
-    
+
     protected char mapCharacter;
     protected boolean walkable;
     protected boolean notOccupied;
@@ -24,7 +22,6 @@ public abstract class MapObject {
     protected boolean diggable;
     protected Color mapColor;
     protected Creature creature;
-    
 
     public MapObject() {
         notOccupied = true;
@@ -51,7 +48,8 @@ public abstract class MapObject {
     public boolean isWall() {
         return wall;
     }
-    public boolean isDiggable(){
+
+    public boolean isDiggable() {
         return diggable;
     }
 
@@ -70,14 +68,14 @@ public abstract class MapObject {
 
     private void update() {
         needsUpdate = true;
-        
-        if(creature == null){
+
+        if (creature == null) {
             notOccupied = true;
         }
-        else{
-            notOccupied = false;     
+        else {
+            notOccupied = false;
         }
-        
+
     }
 
     public boolean isNeedsUpdate() {

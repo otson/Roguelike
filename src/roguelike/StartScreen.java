@@ -9,11 +9,6 @@ package roguelike;
  *
  * @author otso
  */
-public class DownStairs extends Stairs {
-
-    public DownStairs() {
-        this.up = false;
-        this.mapCharacter = '↓';
-    }
+class StartScreen {
 
 }

@@ -5,9 +5,6 @@ package roguelike;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
 import java.awt.GraphicsEnvironment;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,15 +27,14 @@ public class Roguelike2 {
             }
         });
     }
-    
+
     private static void createAndShowGUI() {
-        
-        int[][] array = new int[][]{{1,2,3},{3,4,5},{7,8,9}};
+
+        int[][] array = new int[][]{{1, 2, 3}, {3, 4, 5}, {7, 8, 9}};
         System.out.println(array[2][0]);
-        
-    
+
         JFrame frame = new JFrame();
-        
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Roguelike");
         frame.add(getContent());
@@ -48,11 +44,11 @@ public class Roguelike2 {
         frame.setVisible(true);
         GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
     }
-    
-    private static JPanel getContent(){
-        
+
+    private static JPanel getContent() {
+
         ContentPanel content = new ContentPanel();
         return content;
     }
-    
+
 }

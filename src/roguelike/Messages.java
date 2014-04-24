@@ -12,13 +12,12 @@ import javax.swing.JTextField;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author otso
  */
-public class Messages extends JPanel{
-    
+public class Messages extends JPanel {
+
     private JTextField fresh;
     private JTextField stale;
     private JTextField old;
@@ -26,10 +25,10 @@ public class Messages extends JPanel{
     private Color staleColor = Color.LIGHT_GRAY;
     private Color oldColor = Color.GRAY;
     private Color bgColor = Color.BLACK;
-    private GridLayout grid = new GridLayout(3,1);
+    private GridLayout grid = new GridLayout(3, 1);
 
     Messages() {
-        
+
     }
 
     Messages(int MESSAGES_HEIGHT, Font MESSAGES_FONT) {
@@ -41,23 +40,23 @@ public class Messages extends JPanel{
         fresh = new JTextField();
         stale = new JTextField();
         old = new JTextField();
-        
+
         fresh.setFont(MESSAGES_FONT);
         stale.setFont(MESSAGES_FONT);
         old.setFont(MESSAGES_FONT);
-        
+
         fresh.setBackground(bgColor);
         stale.setBackground(bgColor);
         old.setBackground(bgColor);
-        
+
         fresh.setForeground(freshColor);
         stale.setForeground(staleColor);
         old.setForeground(oldColor);
-        
+
         fresh.setBorder(null);
         stale.setBorder(null);
         old.setBorder(null);
-        
+
         this.add(old);
         this.add(stale);
         this.add(fresh);
@@ -73,8 +72,8 @@ public class Messages extends JPanel{
         stale.setText(fresh.getText());
         fresh.setText(message);
     }
-    
-    public void digDirection(){
+
+    public void digDirection() {
         t("Which direction would you like to dig?");
     }
 
@@ -89,26 +88,32 @@ public class Messages extends JPanel{
     public void digAir() {
         t("There's no wall there!");
     }
-    
-    public void hit(Creature target, Creature attacker, int damage){
-        if("You".equals(attacker.name))
-            t(attacker.name+" hit "+target.name.toLowerCase()+" for "+damage+" damage.");
-        else
-            t(attacker.name+" hits "+target.name.toLowerCase()+" for "+damage+" damage.");
+
+    public void hit(Creature target, Creature attacker, int damage) {
+        if ("You".equals(attacker.name)) {
+            t(attacker.name + " hit " + target.name.toLowerCase() + " for " + damage + " damage.");
+        }
+        else {
+            t(attacker.name + " hits " + target.name.toLowerCase() + " for " + damage + " damage.");
+        }
     }
-    
-    public void kill(Creature target, Creature attacker){
-        if("You".equals(attacker.name))
-            t(attacker.name+" kill "+target.name.toLowerCase()+"!");
-        else
-            t(attacker.name+" mortally hits  "+target.name.toLowerCase()+". You die.");
+
+    public void kill(Creature target, Creature attacker) {
+        if ("You".equals(attacker.name)) {
+            t(attacker.name + " kill " + target.name.toLowerCase() + "!");
+        }
+        else {
+            t(attacker.name + " mortally hits  " + target.name.toLowerCase() + ". You die.");
+        }
     }
 
     void toggleEyes(boolean eyesOpen) {
-        if(eyesOpen)
+        if (eyesOpen) {
             t("You open your eyes. You can see again!");
-        else
+        }
+        else {
             t("You close your eyes. You can't see what is happening around you.");
+        }
     }
 
     void findWallBlind() {
@@ -138,5 +143,5 @@ public class Messages extends JPanel{
     void goingDownStairs() {
         t("You go down the stairs.");
     }
-    
+
 }

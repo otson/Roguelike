@@ -10,9 +10,6 @@ package roguelike.items;
  *
  * @author otso
  */
-public abstract class Weapon extends Item{
-
-    public Weapon() {
-    }
+public abstract class Food extends Consumable{
     
 }

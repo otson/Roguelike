@@ -1,13 +1,14 @@
 package roguelike;
+
 import java.awt.Color;
 
 /**
  *
  * @author otso
  */
-public class Blob extends HostileCreature{
+public class Blob extends HostileCreature {
 
-    public Blob(Tile[][] tileMap, Player player, Messages messages){
+    public Blob(Tile[][] tileMap, Player player, Messages messages) {
         super(tileMap, player, messages);
         this.attack = 4;
         this.defense = 1;

@@ -1,6 +1,5 @@
 package roguelike;
 
-
 import java.awt.Color;
 
 /*
@@ -8,12 +7,11 @@ import java.awt.Color;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author otso
  */
-public class MiningGnome extends HostileCreature{
+public class MiningGnome extends HostileCreature {
 
     public MiningGnome(Tile[][] tileMap, Player player, Messages messages) {
         super(tileMap, player, messages);

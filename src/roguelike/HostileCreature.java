@@ -5,13 +5,12 @@ package roguelike;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author otso
  */
-public abstract class HostileCreature extends Creature{
-    
+public abstract class HostileCreature extends Creature {
+
     public static long time = 0;
     public static long startTime;
     public static long endTime;
@@ -22,73 +21,92 @@ public abstract class HostileCreature extends Creature{
 
     @Override
     protected void hunt() {
-        if(this.x == this.lastSeenPlayerX && this.y == this.lastSeenPlayerY){
+        if (this.x == this.lastSeenPlayerX && this.y == this.lastSeenPlayerY) {
             this.lastSeenPlayerY = -1;
             this.lastSeenPlayerX = -1;
         }
-        
-        if(seesPlayer){
-            if(movesLeft > 0){
+
+        if (seesPlayer) {
+            if (movesLeft > 0) {
                 int dirX = GetRelativePlayerX();
                 int dirY = GetRelativePlayerY();
 
-                if(canDig && tileMap[x+dirX][y+dirY].isDiggable())
+                if (canDig && tileMap[x + dirX][y + dirY].isDiggable()) {
                     dig(dirX, dirY);
-                else if(tileMap[x+dirX][y+dirY].hasPlayer())
+                }
+                else if (tileMap[x + dirX][y + dirY].hasPlayer()) {
                     attack(this, player);
-                else
+                }
+                else {
                     move(dirX, dirY);
+                }
             }
         }
-        else if(this.lastSeenPlayerX != -1 && this.lastSeenPlayerY != -1){
+        else if (this.lastSeenPlayerX != -1 && this.lastSeenPlayerY != -1) {
             int dirX = GetLastSeenPlayerX();
             int dirY = GetLastSeenPlayerY();
-            
-            if(canDig && tileMap[x+dirX][y+dirY].isDiggable())
-                    dig(dirX, dirY);
-            else if(tileMap[x+dirX][y+dirY].hasPlayer())
+
+            if (canDig && tileMap[x + dirX][y + dirY].isDiggable()) {
+                dig(dirX, dirY);
+            }
+            else if (tileMap[x + dirX][y + dirY].hasPlayer()) {
                 attack(this, player);
-            else
+            }
+            else {
                 move(dirX, dirY);
+            }
         }
-        else
-           wander();     
+        else {
+            wander();
+        }
     }
 
     private int GetRelativePlayerX() {
-        if(player.getX() > x)
+        if (player.getX() > x) {
             return 1;
-        else if(player.getX() < x)
+        }
+        else if (player.getX() < x) {
             return -1;
-        else
+        }
+        else {
             return 0;
+        }
     }
-    
+
     private int GetRelativePlayerY() {
-        if(player.getY() > y)
+        if (player.getY() > y) {
             return 1;
-        else if(player.getY() < y)
+        }
+        else if (player.getY() < y) {
             return -1;
-        else
+        }
+        else {
             return 0;
+        }
     }
-    
+
     private int GetLastSeenPlayerX() {
-        if(this.lastSeenPlayerX > x)
+        if (this.lastSeenPlayerX > x) {
             return 1;
-        else if(this.lastSeenPlayerX < x)
+        }
+        else if (this.lastSeenPlayerX < x) {
             return -1;
-        else
+        }
+        else {
             return 0;
+        }
     }
-    
+
     private int GetLastSeenPlayerY() {
-        if(this.lastSeenPlayerY > y)
+        if (this.lastSeenPlayerY > y) {
             return 1;
-        else if(this.lastSeenPlayerY < y)
+        }
+        else if (this.lastSeenPlayerY < y) {
             return -1;
-        else
+        }
+        else {
             return 0;
+        }
     }
 
 }

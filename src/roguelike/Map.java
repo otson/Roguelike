@@ -65,7 +65,7 @@ public class Map extends JPanel {
         fontMetrics = img.getGraphics().getFontMetrics(MAP_FONT);
         tileWidth = fontMetrics.stringWidth("a");
         tileHeight = fontMetrics.getHeight();
-        
+
         this.setPreferredSize(new Dimension(tileWidth * VISIBLE_TILES_X, tileHeight * VISIBLE_TILES_Y));
 
     }
@@ -80,7 +80,7 @@ public class Map extends JPanel {
 
         yMin = player.y - VISIBLE_TILES_Y / 2;
         yMax = player.y + VISIBLE_TILES_Y / 2;
-        
+
         xMin = player.x - VISIBLE_TILES_X / 2;
         xMax = player.x + VISIBLE_TILES_X / 2;
 
