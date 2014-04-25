@@ -16,9 +16,9 @@ public class CreatureFactory {
     private HashMap<Integer, LinkedList<Creature>> creatureList2 = new HashMap<>();
     HashMap<Integer, Tile[][]> levels;
     private Random rand = new Random();
-    private final int SPAWN_CHANCE_PERCENTAGE = 50;
+    private final int SPAWN_CHANCE_PERCENTAGE = 100;
     private int monsterCount = 0;
-    private final int MAX_MONSTER_COUNT = 40;
+    private final int MAX_MONSTER_COUNT = 400;
     private Messages messages;
 
     CreatureFactory(HashMap<Integer, Tile[][]> levels, Player player, Messages messages) {

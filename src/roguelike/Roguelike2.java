@@ -5,6 +5,7 @@ package roguelike;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -30,9 +31,6 @@ public class Roguelike2 {
     }
 
     private static void createAndShowGUI() {
-
-        int[][] array = new int[][]{{1, 2, 3}, {3, 4, 5}, {7, 8, 9}};
-        System.out.println(array[2][0]);
 
         JFrame frame = new JFrame();
 

@@ -23,7 +23,7 @@ class InventoryScreen extends JPanel {
     private Graphics2D og;
     private Dimension od = null;
     private Image oi = null;
-    private final Font INVENTORY_FONT = new Font("Helvetica", Font.PLAIN, 14);
+    private final Font INVENTORY_FONT = new Font("Helvetica", Font.BOLD, 16);
     private Player player;
 
     public InventoryScreen(Player player) {
@@ -37,7 +37,7 @@ class InventoryScreen extends JPanel {
         setDoubleBuffering();
         og.setFont(INVENTORY_FONT);
         og.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        og.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        og.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         og.setColor(Color.WHITE);
         og.drawString(getPlayerInventory(), 5, 25);
         g.drawImage(oi, 0, 0, this);

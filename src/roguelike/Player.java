@@ -23,7 +23,7 @@ public class Player extends Creature {
         this.glyph = '@';
         this.attack = 10;
         this.defense = 2;
-        this.maxHealth = 100;
+        this.maxHealth = 10000;
         this.movesPerTurn = 2;
         this.turnsToRegenerate = 2;
         this.regenAmount = 1;

@@ -138,7 +138,11 @@ public abstract class Creature {
     }
 
     protected void wander() {
-        move(rand.nextInt((1 - (-1)) + 1) + (-1), rand.nextInt((1 - (-1)) + 1) + (-1));
+        int dirX = rand.nextInt((1 - (-1)) + 1) + (-1);
+        int dirY = rand.nextInt((1 - (-1)) + 1) + (-1);
+        if (tileMap[this.x + dirX][this.y + dirY].isNotOccupied() && tileMap[this.x + dirX][this.y + dirY].isWalkable()) {
+            move(dirX, dirY);
+        }
     }
 
     protected void attack(Creature attacker, Creature target) {
