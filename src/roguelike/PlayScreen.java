@@ -6,10 +6,7 @@
 package roguelike;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -37,8 +34,9 @@ class PlayScreen extends JPanel implements KeyListener {
     private Stats stats;
     private int startLevel = 1;
     private boolean digEvent = false;
-    private InventoryScreen inventoryScreen = new InventoryScreen();
+    private InventoryScreen inventoryScreen;
     private boolean inventoryIsActive = false;
+    private boolean playIsActive = true;
 
     public PlayScreen() {
 
@@ -47,8 +45,13 @@ class PlayScreen extends JPanel implements KeyListener {
         initMessages();
         addPlayer();
         initStats();
+        initInventory();
         createCreatureFactory();
         addContent();
+    }
+    
+    private void initInventory(){
+        inventoryScreen = new InventoryScreen(player);
     }
 
     private void createCreatureFactory() {
@@ -82,11 +85,15 @@ class PlayScreen extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        respondToUserInput(e);
+        if (playIsActive) {
+            respondToPlayInput(e);
+        }
+        else if (inventoryIsActive) {
+            respondToInventoryInput(e);
+        }
     }
 
-    public void respondToUserInput(KeyEvent e) {
-        System.out.println("Responding");
+    public void respondToPlayInput(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);
@@ -194,9 +201,16 @@ class PlayScreen extends JPanel implements KeyListener {
         if (player.getMovesLeft() == 0) {
             turnEnd();
         }
-        map.repaint();
-        stats.repaint();
+        repaint();
 
+    }
+
+    public void respondToInventoryInput(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_I:
+                toggleInventory();
+                break;
+        }
     }
 
     @Override
@@ -233,16 +247,18 @@ class PlayScreen extends JPanel implements KeyListener {
         if (!inventoryIsActive) {
             this.remove(map);
             this.add(inventoryScreen, BorderLayout.CENTER);
+            validate();
             repaint();
-            inventoryScreen.repaint();
             inventoryIsActive = true;
+            playIsActive = false;
         }
         else {
             this.remove(inventoryScreen);
             this.add(map, BorderLayout.CENTER);
+            validate();
             repaint();
-            map.repaint();
             inventoryIsActive = false;
+            playIsActive = true;
         }
     }
 

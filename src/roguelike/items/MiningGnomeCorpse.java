@@ -14,6 +14,7 @@ import java.awt.Color;
 public class MiningGnomeCorpse extends Food {
 
     public MiningGnomeCorpse() {
+        this.name = "Mining Gnome Corpse";
         this.color = Color.RED;
         this.glyph = '%';
         this.id = 0;

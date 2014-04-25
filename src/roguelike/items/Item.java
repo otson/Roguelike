@@ -15,6 +15,7 @@ import java.awt.Color;
 public abstract class Item {
     
     protected char glyph;
+    protected String name;
     protected Color color;
     protected int id;
     protected int weight;
@@ -29,6 +30,10 @@ public abstract class Item {
 
     public Color getColor() {
         return color;
+    }
+
+    public String getName() {
+        return name;
     }
     
     
