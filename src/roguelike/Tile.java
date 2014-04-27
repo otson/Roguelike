@@ -34,6 +34,10 @@ class Tile {
     public boolean isNotOccupied() {
         return creature == null;
     }
+    
+    public boolean canEnter(){
+        return creature == null && mapObject.isWalkable();
+    }
 
     public boolean isWalkable() {
         return mapObject.isWalkable();

@@ -37,6 +37,8 @@ public abstract class Creature {
     protected int lastSeenPlayerY = -1;
     protected int level;
     protected int[] inventory = new int[PlayScreen.ITEM_LIST.size()];
+    protected float ox, oy, xx, yy;
+    protected static CosSineTable table = new CosSineTable();
 
     public Creature(Tile[][] tileMap, Player player, Messages messages) {
         this.tileMap = tileMap;
@@ -53,7 +55,7 @@ public abstract class Creature {
         regenAmount = 1;
         movesLeft = movesPerTurn;
         canDig = false;
-        visionDistance = 15;
+        visionDistance = 20;
         seesPlayer = false;
         initializeVisionArrays();
     }
@@ -81,11 +83,40 @@ public abstract class Creature {
         }
     }
 
+    public void FOV(int distance) {
+        resetCurrentVision();
+        
+        for (int i = 0; i < 360; i += 4) // how many rays of light
+        {
+            xx = (float) Math.cos((float) i * 0.01745f);
+            yy = (float) Math.sin((float) i * 0.01745f);
+            DoFov(xx, yy, distance);
+        }
+    }
+
+    void DoFov(float x, float y, int distance) {
+ 
+
+        ox = (float) this.x + 0.5f;
+        oy = (float) this.y + 0.5f;
+        for (int i = 0; i < distance; i++) {
+            seen[(int) ox][(int) oy] = true;
+            if (tileMap[(int) ox][(int) oy].hasPlayer()) {
+                seesPlayer = true;
+                lastSeenPlayerX = tileMap[(int) ox][(int) oy].getCreature().x;
+                lastSeenPlayerY = tileMap[(int) ox][(int) oy].getCreature().y;
+            }
+            if (tileMap[(int) ox][(int) oy].blocksVision()) {
+                return;
+            }
+            ox += x;
+            oy += y;
+        }
+    }
+
     public void FOV() {
         resetCurrentVision();
-        float xx, yy;
-        int i;
-        for (i = 0; i < 360; i += 1) // how many rays of light
+        for (int i = 0; i < 360; i += 4) // how many rays of light
         {
             xx = (float) Math.cos((float) i * 0.01745f);
             yy = (float) Math.sin((float) i * 0.01745f);
@@ -94,11 +125,10 @@ public abstract class Creature {
     }
 
     void DoFov(float x, float y) {
-        int i;
-        float ox, oy;
+        
         ox = (float) this.x + 0.5f;
         oy = (float) this.y + 0.5f;
-        for (i = 0; i < visionDistance; i++) {
+        for (int i = 0; i < visionDistance; i++) {
             seen[(int) ox][(int) oy] = true;
             if (tileMap[(int) ox][(int) oy].hasPlayer()) {
                 seesPlayer = true;
@@ -115,16 +145,17 @@ public abstract class Creature {
 
     public void resetCurrentVision() {
         seesPlayer = false;
-        for (int yy = 0; yy > seen.length; yy++) {
-            for (int xx = 0; xx > seen[yy].length; xx++) {
-                currentlySeen[xx][yy] = false;
+        for (int yyy = 0; yyy > seen.length; yyy++) {
+            for (int xxx = 0; xxx > seen[yyy].length; xxx++) {
+                currentlySeen[xxx][yyy] = false;
             }
         }
     }
 
     protected void move(int x, int y) {
+
         if (movesLeft > 0) {
-            if (tileMap[this.x + x][this.y + y].isNotOccupied() && tileMap[this.x + x][this.y + y].isWalkable()) {
+            if (tileMap[this.x + x][this.y + y].canEnter()) {
                 tileMap[this.x][this.y].setCreature(null);
                 tileMap[this.x + x][this.y + y].setCreature(this);
                 this.x += x;
@@ -137,11 +168,24 @@ public abstract class Creature {
         }
     }
 
+    protected void sleep() {
+        movesLeft = 0;
+        FOV(5);
+    }
+
+    protected void wanderMove(int x, int y) {
+        tileMap[this.x][this.y].setCreature(null);
+        tileMap[this.x + x][this.y + y].setCreature(this);
+        this.x += x;
+        this.y += y;
+        action();
+    }
+
     protected void wander() {
         int dirX = rand.nextInt((1 - (-1)) + 1) + (-1);
         int dirY = rand.nextInt((1 - (-1)) + 1) + (-1);
-        if (tileMap[this.x + dirX][this.y + dirY].isNotOccupied() && tileMap[this.x + dirX][this.y + dirY].isWalkable()) {
-            move(dirX, dirY);
+        if (tileMap[this.x + dirX][this.y + dirY].canEnter()) {
+            wanderMove(dirX, dirY);
         }
     }
 
@@ -243,7 +287,7 @@ public abstract class Creature {
 
     abstract void hunt();
 
-    private void die() {
+    protected void die() {
         alive = false;
         tileMap[x][y].dropAllItems();
         tileMap[x][y].setCreature(null);

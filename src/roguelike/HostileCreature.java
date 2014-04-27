@@ -21,6 +21,7 @@ public abstract class HostileCreature extends Creature {
 
     @Override
     protected void hunt() {
+        
         if (this.x == this.lastSeenPlayerX && this.y == this.lastSeenPlayerY) {
             this.lastSeenPlayerY = -1;
             this.lastSeenPlayerX = -1;

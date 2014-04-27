@@ -1,7 +1,7 @@
 package roguelike;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -12,13 +12,13 @@ public class CreatureFactory {
 
     private Tile[][] tileMap;
     private Player player;
-    private LinkedList<Creature> creatureList = new LinkedList<>();
-    private HashMap<Integer, LinkedList<Creature>> creatureList2 = new HashMap<>();
+    private ArrayList<Creature> creatureList = new ArrayList<>();
+    private HashMap<Integer, ArrayList<Creature>> creatureListList = new HashMap<>();
     HashMap<Integer, Tile[][]> levels;
     private Random rand = new Random();
-    private final int SPAWN_CHANCE_PERCENTAGE = 100;
+    private final int SPAWN_CHANCE_PERCENTAGE = 5;
     private int monsterCount = 0;
-    private final int MAX_MONSTER_COUNT = 400;
+    private final int MAX_MONSTER_COUNT = 20;
     private Messages messages;
 
     CreatureFactory(HashMap<Integer, Tile[][]> levels, Player player, Messages messages) {
@@ -30,12 +30,13 @@ public class CreatureFactory {
     public void SpawnCreatures() {
         if (monsterCount < MAX_MONSTER_COUNT) {
             if (rand.nextInt(101) < SPAWN_CHANCE_PERCENTAGE) {
-                addRandomMonster();
+                addRandomMonster(1);
             }
         }
     }
 
     public void ActMonsters() {
+
         for (int i = 0; i < creatureList.size(); i++) {
             Creature c = creatureList.get(i);
             if (!c.isAlive()) {
@@ -65,7 +66,6 @@ public class CreatureFactory {
         else if (result == 1) {
             creatureList.add(new Blob(tileMap, player, messages));
         }
-        System.out.println("Monster count: " + monsterCount);
     }
 
     private void addRandomMonster(int amount) {
@@ -81,16 +81,16 @@ public class CreatureFactory {
             }
             i++;
         }
-        System.out.println("Monster count: " + monsterCount);
+        System.out.println("creatures: " + creatureList.size());
     }
 
     void setCreatureLevel(int level) {
-        if (creatureList2.containsKey(level)) {
-            creatureList = creatureList2.get(level);
+        if (creatureListList.containsKey(level)) {
+            creatureList = creatureListList.get(level);
         }
         else {
-            creatureList = new LinkedList<>();
-            creatureList2.put(level, creatureList);
+            creatureList = new ArrayList<>();
+            creatureListList.put(level, creatureList);
         }
         tileMap = levels.get(level);
 

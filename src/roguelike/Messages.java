@@ -148,4 +148,20 @@ public class Messages extends JPanel {
         t("You go down the stairs.");
     }
 
+    void youCloseDoor() {
+        t("You close the door.");
+    }
+
+    void youOpenDoor() {
+        t("You open the door.");
+    }
+
+    void doorDirection() {
+        t("Which direction?");
+    }
+
+    void noDoor() {
+        t("There's no door there.");
+    }
+
 }

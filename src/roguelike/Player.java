@@ -1,6 +1,7 @@
 package roguelike;
 
 import java.awt.Color;
+import roguelike.mapobjects.Door;
 import roguelike.mapobjects.walls.dugWall;
 
 /*
@@ -21,9 +22,9 @@ public class Player extends Creature {
         super(tileMap, player, messages);
         this.mapCreator = mapCreator;
         this.glyph = '@';
-        this.attack = 10;
+        this.attack = 1000;
         this.defense = 2;
-        this.maxHealth = 10000;
+        this.maxHealth = 1000000;
         this.movesPerTurn = 2;
         this.turnsToRegenerate = 2;
         this.regenAmount = 1;
@@ -210,5 +211,23 @@ public class Player extends Creature {
             }
             action();
         }
+    }
+
+    void tryDoor(int x, int y) {
+        if (tileMap[this.x + x][this.y + y].getMapObject().isDoor()) {
+            Door door = (Door) tileMap[this.x + x][this.y + y].getMapObject();
+            if (door.isOpen()) {
+                messages.youCloseDoor();
+                door.toggle();
+            }
+            else {
+                messages.youOpenDoor();
+                door.toggle();
+            }
+        }
+        else {
+            messages.noDoor();
+        }
+        action();
     }
 }

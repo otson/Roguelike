@@ -86,5 +86,11 @@ public abstract class MapObject {
     public void setNeedsUpdate(boolean needsUpdate) {
         this.needsUpdate = needsUpdate;
     }
+    public boolean isRoomFloor(){
+        return this instanceof RoomFloor;
+    }
+    public boolean isDoor(){
+        return this instanceof Door;
+    }
 
 }

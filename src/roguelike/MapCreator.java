@@ -2,6 +2,8 @@ package roguelike;
 
 import java.util.HashMap;
 import java.util.Random;
+import roguelike.mapobjects.Door;
+import roguelike.mapobjects.RoomFloor;
 import roguelike.mapobjects.walls.DigWall;
 import roguelike.mapobjects.walls.DigWallCross;
 import roguelike.mapobjects.walls.DigWallDownLeft;
@@ -23,7 +25,7 @@ import roguelike.mapobjects.walls.SolidWall;
  */
 public class MapCreator {
 
-    private final int WALL_PERCENTAGE = 45;
+    private final int WALL_PERCENTAGE = 0;
     private int width;
     private int height;
     private Random rand = new Random();
@@ -142,11 +144,11 @@ public class MapCreator {
                     downMid = tileMap[x + 1][y].getMapObject().isWall();
                     downRight = tileMap[x + 1][y + 1].getMapObject().isWall();
 
-                    if (midRight && midLeft && ((!upMid && downLeft && downRight) || (!downMid && upLeft && upRight))) {
+                    if (midRight && midLeft && ((!upMid && downLeft && downRight) || (!downMid && upLeft && upRight) || (!downMid && !upMid))) {
                         tileMap[x][y] = new Tile(new DigWallHorizontal(), x, y);
                     }
 
-                    else if (upMid && downMid && ((!midRight && upLeft && downLeft) || (!midLeft && upRight && downRight))) {
+                    else if (upMid && downMid && ((!midRight && upLeft && downLeft) || (!midLeft && upRight && downRight) || (!midLeft && !midRight))) {
                         tileMap[x][y] = new Tile(new DigWallVertical(), x, y);
                     }
 
@@ -171,7 +173,7 @@ public class MapCreator {
                         tileMap[x][y] = new Tile(new DigWallDownRight(), x, y);
                     }
 
-                        // crossing
+                    // crossing
                     else if ((!upRight && !downLeft) || (!downRight && !upLeft)) {
                         tileMap[x][y] = new Tile(new DigWallCross(), x, y);
                     }
@@ -218,6 +220,64 @@ public class MapCreator {
         }
     }
 
+    private void addRooms(Tile[][] tileMap, int count) {
+        int roomWidth;
+        int roomHeight;
+        for (int i = 0; i < count; i++) {
+            roomWidth = rand.nextInt(8) + 4;
+            roomHeight = rand.nextInt(6) + 3;
+            addRoom(tileMap, roomWidth, roomHeight);
+        }
+    }
+
+    private void addRoom(Tile[][] tileMap, int width, int height) {
+        boolean notSet = true;
+        int x, y;
+        int minDistanceFromBorder = 2;
+        int counter = 0;
+        while (notSet) {
+            counter++;
+            x = rand.nextInt(tileMap.length - (width + 2 * minDistanceFromBorder)) + minDistanceFromBorder;
+            y = rand.nextInt(tileMap[x].length - (height + 2 * minDistanceFromBorder)) + minDistanceFromBorder;
+            boolean valid = true;
+            for (int x0 = 0; x0 < width; x0++) {
+                for (int y0 = 0; y0 < height; y0++) {
+                    if (tileMap[x + x0][y + y0].getMapObject().isRoomFloor()) {
+                        valid = false;
+                    }
+                }
+            }
+            if (valid) {
+                for (int x0 = -1; x0 < width + 1; x0++) {
+                    for (int y0 = -1; y0 < height + 1; y0++) {
+                        tileMap[x + x0][y + y0].setMapObject(new RoomFloor());
+                    }
+                }
+
+                for (int x0 = 0; x0 < width; x0++) {
+                    for (int y0 = 0; y0 < height; y0++) {
+                        if (x0 == 0 || y0 == 0 || x0 == width - 1 || y0 == height - 1) {
+                            if (x0 == 2 && y0 == 2) {
+                                tileMap[x + x0][y + y0].setMapObject(new Door());
+                            }
+                            else {
+                                tileMap[x + x0][y + y0].setMapObject(new DigWall());
+                            }
+                        }
+                    }
+                }
+                notSet = false;
+            }
+            else {
+                if (counter == 100) {
+                    System.out.println("Failed to place room after " + counter + " tries.");
+                    return;
+                }
+            }
+        }
+
+    }
+
     private void addStairs(Tile[][] tileMap) {
         boolean notSet = true;
         int count = 0;
@@ -257,10 +317,10 @@ public class MapCreator {
 
     public final void createLevel(int level) {
         Tile[][] tileMap = new Tile[width][height];
-        //System.out.println("Use .length for maximum x, [0].length for maximum y");
         generateBorders(tileMap);
         generateRandomness(tileMap, WALL_PERCENTAGE);
         generateCaves(tileMap, 25, 5, 4);
+        addRooms(tileMap, 100);
         addStairs(tileMap);
         finalizeWalls(tileMap);
         levels.put(level, tileMap);

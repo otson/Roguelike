@@ -10,6 +10,8 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import roguelike.items.MiningGnomeCorpse;
 import roguelike.items.Item;
@@ -18,13 +20,13 @@ import roguelike.items.Item;
  *
  * @author otso
  */
-class PlayScreen extends JPanel implements KeyListener {
+class PlayScreen extends JPanel implements KeyListener, Runnable {
 
     public static final HashMap<Integer, Item> ITEM_LIST = new HashMap<>();
 
     private final int MESSAGES_HEIGHT = 60;
-    private final int MAP_WIDTH = 200;
-    private final int MAP_HEIGHT = 40;
+    private final int MAP_WIDTH = 100;
+    private final int MAP_HEIGHT = 30;
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);
     private MapCreator mapCreator;
     private CreatureFactory creatureFactory;
@@ -34,12 +36,15 @@ class PlayScreen extends JPanel implements KeyListener {
     private Stats stats;
     private int startLevel = 1;
     private boolean digEvent = false;
+    private boolean doorEvent = false;
     private InventoryScreen inventoryScreen;
     private boolean inventoryIsActive = false;
     private boolean playIsActive = true;
+    private boolean speedTest = false;
+    private Thread thread;
 
     public PlayScreen() {
-
+        thread = new Thread(this);
         initItemList();
         mapCreator = new MapCreator(startLevel, MAP_WIDTH, MAP_HEIGHT);
         initMessages();
@@ -49,8 +54,8 @@ class PlayScreen extends JPanel implements KeyListener {
         createCreatureFactory();
         addContent();
     }
-    
-    private void initInventory(){
+
+    private void initInventory() {
         inventoryScreen = new InventoryScreen(player);
     }
 
@@ -95,13 +100,28 @@ class PlayScreen extends JPanel implements KeyListener {
 
     public void respondToPlayInput(KeyEvent e) {
         switch (e.getKeyCode()) {
+
+            case KeyEvent.VK_T:
+                toggleSpeedTest();
+                break;
+
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);
                 break;
+
+            case KeyEvent.VK_O:
+                messages.doorDirection();
+                doorEvent = true;
+                break;
+
             case KeyEvent.VK_NUMPAD7:
                 if (digEvent) {
                     player.dig(-1, -1);
                     digEvent = false;
+                }
+                else if (doorEvent) {
+                    player.tryDoor(-1, -1);
+                    doorEvent = false;
                 }
                 else {
                     player.move(-1, -1);
@@ -112,6 +132,10 @@ class PlayScreen extends JPanel implements KeyListener {
                     player.dig(0, -1);
                     digEvent = false;
                 }
+                else if (doorEvent) {
+                    player.tryDoor(0, -1);
+                    doorEvent = false;
+                }
                 else {
                     player.move(0, -1);
                 }
@@ -121,6 +145,10 @@ class PlayScreen extends JPanel implements KeyListener {
                     player.dig(1, -1);
                     digEvent = false;
                 }
+                else if (doorEvent) {
+                    player.tryDoor(1, -1);
+                    doorEvent = false;
+                }
                 else {
                     player.move(1, -1);
                 }
@@ -129,6 +157,10 @@ class PlayScreen extends JPanel implements KeyListener {
                 if (digEvent) {
                     player.dig(-1, 0);
                     digEvent = false;
+                }
+                else if (doorEvent) {
+                    player.tryDoor(-1, 0);
+                    doorEvent = false;
                 }
                 else {
                     player.move(-1, 0);
@@ -142,6 +174,10 @@ class PlayScreen extends JPanel implements KeyListener {
                     player.dig(1, 0);
                     digEvent = false;
                 }
+                else if (doorEvent) {
+                    player.tryDoor(1, 0);
+                    doorEvent = false;
+                }
                 else {
                     player.move(1, 0);
                 }
@@ -150,6 +186,10 @@ class PlayScreen extends JPanel implements KeyListener {
                 if (digEvent) {
                     player.dig(-1, 1);
                     digEvent = false;
+                }
+                else if (doorEvent) {
+                    player.tryDoor(-1, 1);
+                    doorEvent = false;
                 }
                 else {
                     player.move(-1, 1);
@@ -160,6 +200,10 @@ class PlayScreen extends JPanel implements KeyListener {
                     player.dig(0, 1);
                     digEvent = false;
                 }
+                else if (doorEvent) {
+                    player.tryDoor(0, 1);
+                    doorEvent = false;
+                }
                 else {
                     player.move(0, 1);
                 }
@@ -169,6 +213,10 @@ class PlayScreen extends JPanel implements KeyListener {
                 if (digEvent) {
                     player.dig(1, 1);
                     digEvent = false;
+                }
+                else if (doorEvent) {
+                    player.tryDoor(1, 1);
+                    doorEvent = false;
                 }
                 else {
                     player.move(1, 1);
@@ -262,4 +310,40 @@ class PlayScreen extends JPanel implements KeyListener {
         }
     }
 
+    @Override
+    public void run() {
+        long startTime = System.nanoTime();
+        long endTime;
+        long totalTime = 0;
+        int count = 0;
+        System.out.println("Threadissa");
+        speedTest = true;
+
+        while (speedTest) {
+            startTime = System.nanoTime();
+            turnEnd();
+            repaint();
+            count++;
+            endTime = System.nanoTime();
+            totalTime += endTime - startTime;
+            if (totalTime > 1000000000) {
+                totalTime = 0;
+
+                System.out.println("Loops in a second: " + count);
+                count = 0;
+            }
+        }
+        System.out.println("exiting");
+    }
+
+    private void toggleSpeedTest() {
+        if (!speedTest) {
+            thread = new Thread(this);
+            thread.start();
+        }
+        else {
+            speedTest = false;
+        }
+
+    }
 }
