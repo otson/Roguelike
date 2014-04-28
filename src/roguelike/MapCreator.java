@@ -135,14 +135,14 @@ public class MapCreator {
         for (int x = 1; x + 1 < tileMap.length; x++) {
             for (int y = 1; y + 1 < tileMap[x].length; y++) {
                 if (tileMap[x][y].getMapObject().isWall()) {
-                    upLeft = tileMap[x - 1][y - 1].getMapObject().isWall();
-                    upMid = tileMap[x - 1][y].getMapObject().isWall();
-                    upRight = tileMap[x - 1][y + 1].getMapObject().isWall();
-                    midLeft = tileMap[x][y - 1].getMapObject().isWall();
-                    midRight = tileMap[x][y + 1].getMapObject().isWall();
-                    downLeft = tileMap[x + 1][y - 1].getMapObject().isWall();
-                    downMid = tileMap[x + 1][y].getMapObject().isWall();
-                    downRight = tileMap[x + 1][y + 1].getMapObject().isWall();
+                    upLeft = tileMap[x - 1][y - 1].getMapObject().isWallOrDoor();
+                    upMid = tileMap[x - 1][y].getMapObject().isWallOrDoor();
+                    upRight = tileMap[x - 1][y + 1].getMapObject().isWallOrDoor();
+                    midLeft = tileMap[x][y - 1].getMapObject().isWallOrDoor();
+                    midRight = tileMap[x][y + 1].getMapObject().isWallOrDoor();
+                    downLeft = tileMap[x + 1][y - 1].getMapObject().isWallOrDoor();
+                    downMid = tileMap[x + 1][y].getMapObject().isWallOrDoor();
+                    downRight = tileMap[x + 1][y + 1].getMapObject().isWallOrDoor();
 
                     if (midRight && midLeft && ((!upMid && downLeft && downRight) || (!downMid && upLeft && upRight) || (!downMid && !upMid))) {
                         tileMap[x][y] = new Tile(new DigWallHorizontal(), x, y);
@@ -248,6 +248,10 @@ public class MapCreator {
                 }
             }
             if (valid) {
+                int doorSpots = (width - 2) * 2 + (height - 2) * 2;
+                int doorInt = rand.nextInt(doorSpots);
+                int doorCounter = 0;
+                boolean doorSet = false;
                 for (int x0 = -1; x0 < width + 1; x0++) {
                     for (int y0 = -1; y0 < height + 1; y0++) {
                         tileMap[x + x0][y + y0].setMapObject(new RoomFloor());
@@ -257,12 +261,14 @@ public class MapCreator {
                 for (int x0 = 0; x0 < width; x0++) {
                     for (int y0 = 0; y0 < height; y0++) {
                         if (x0 == 0 || y0 == 0 || x0 == width - 1 || y0 == height - 1) {
-                            if (x0 == 2 && y0 == 2) {
+                            if (!doorSet && doorCounter >= doorInt && (x0 != 0 || y0 != 0) && (x0 != 0 || y0 != height - 1) && (x0 != width - 1 || y0 != 0) && (x0 != width - 1 || y0 != height - 1)) {
                                 tileMap[x + x0][y + y0].setMapObject(new Door());
+                                doorSet = true;
                             }
                             else {
                                 tileMap[x + x0][y + y0].setMapObject(new DigWall());
                             }
+                            doorCounter++;
                         }
                     }
                 }

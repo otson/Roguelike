@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,22 +27,45 @@ public class Stats extends JPanel {
     private Dimension od = null;
     private Image oi = null;
     private final Font STATS_FONT = new Font("Helvetica", Font.PLAIN, 14);
+    private final Font HP_FONT = new Font("Helvetica", Font.BOLD, 14);
+    private Color bgColor = Color.BLACK;
+    private Color fgColor = Color.WHITE;
     private JLabel hpBar;
     private Player player;
     private Color hpBarColor;
+    private JPanel secondRow;
+    private JPanel thirdRow;
+    private JTextField playerName;
 
     Stats(Player player) {
         this.player = player;
         this.setPreferredSize(new Dimension(50, 50));
         this.setBackground(Color.BLACK);
         this.setFocusable(false);
-        this.setLayout(new GridLayout(3, 6));
-        hpBar = new JLabel("HP");
+        this.setLayout(new GridLayout(3, 1));
+        hpBar = new JLabel();
         hpBar.setFocusable(false);
-        hpBar.setFont(STATS_FONT);
+        hpBar.setFont(HP_FONT);
         hpBar.setForeground(Color.BLACK);
         this.add(hpBar);
         this.setForeground(Color.WHITE);
+        
+        secondRow = new JPanel(new GridLayout(1,8));
+        secondRow.setBackground(Color.BLACK);
+        secondRow.setBorder(null);
+        thirdRow = new JPanel(new GridLayout(1,8));
+        thirdRow.setBackground(Color.BLACK);
+        thirdRow.setBorder(null);
+        this.add(secondRow);
+        this.add(thirdRow);
+        
+        playerName = new JTextField();
+        playerName.setFont(STATS_FONT);
+        playerName.setBorder(null);
+        playerName.setBackground(bgColor);
+        playerName.setForeground(fgColor);
+        
+        secondRow.add(playerName);
     }
 
     @Override
@@ -52,6 +76,9 @@ public class Stats extends JPanel {
         og.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         og.setFont(STATS_FONT);
         drawHP(og);
+        
+        og.setColor(Color.WHITE);
+        playerName.setText(player.name);
         g.drawImage(oi, 0, 0, this);
 
     }
@@ -63,12 +90,12 @@ public class Stats extends JPanel {
             oi = this.createImage(d.width, d.height);
             og = (Graphics2D) oi.getGraphics();
         }
-        og.setColor(Color.BLACK);
         og.fillRect(0, 0, d.width, d.height);
 
     }
 
     private void drawHP(Graphics2D og) {
+        hpBar.setText("HP: "+player.currentHealth+"/"+player.maxHealth);
         double scale = (double) player.currentHealth / (double) player.maxHealth;
         //System.out.println("scale: "+scale);
         //System.out.println("r: "+((int)Math.max(scale / 100, 1)*255)+" g: "+((int)(1-Math.max(scale / 100, 1))*255));

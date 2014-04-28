@@ -2,6 +2,7 @@ package roguelike.mapobjects;
 
 import java.awt.Color;
 import roguelike.Creature;
+import roguelike.mapobjects.walls.Wall;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -48,6 +49,10 @@ public abstract class MapObject {
 
     public boolean isWall() {
         return wall;
+    }
+    
+    public boolean isWallOrDoor(){
+        return this instanceof Wall || this instanceof Door;
     }
 
     public boolean isDiggable() {
