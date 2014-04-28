@@ -44,7 +44,7 @@ public class Messages extends JPanel {
         fresh.setFont(MESSAGES_FONT);
         stale.setFont(MESSAGES_FONT);
         old.setFont(MESSAGES_FONT);
-        
+
         fresh.setFocusable(false);
         stale.setFocusable(false);
         old.setFocusable(false);
@@ -95,11 +95,19 @@ public class Messages extends JPanel {
 
     public void hit(Creature target, Creature attacker, int damage) {
         if ("You".equals(attacker.name)) {
-            t(attacker.name + " hit " + target.name.toLowerCase() + " for " + damage + " damage.");
+            if (damage == 0)
+                t(attacker.name + " hit " + target.name.toLowerCase() + ", but the attack does no damage!");
+
+            else
+                t(attacker.name + " hit " + target.name.toLowerCase() + " for " + damage + " damage.");
+
         }
-        else {
+        else if (damage == 0)
+            t(attacker.name + " hits " + target.name.toLowerCase() + ", but the attack does no damage.");
+
+        else
             t(attacker.name + " hits " + target.name.toLowerCase() + " for " + damage + " damage.");
-        }
+
     }
 
     public void kill(Creature target, Creature attacker) {
