@@ -25,7 +25,7 @@ import roguelike.mapobjects.walls.SolidWall;
  */
 public class MapCreator {
 
-    private final int WALL_PERCENTAGE = 0;
+    private final int WALL_PERCENTAGE = 45;
     private int width;
     private int height;
     private Random rand = new Random();
@@ -326,7 +326,7 @@ public class MapCreator {
         generateBorders(tileMap);
         generateRandomness(tileMap, WALL_PERCENTAGE);
         generateCaves(tileMap, 25, 5, 4);
-        addRooms(tileMap, 100);
+        //addRooms(tileMap, 100);
         addStairs(tileMap);
         finalizeWalls(tileMap);
         levels.put(level, tileMap);

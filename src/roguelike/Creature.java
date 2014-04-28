@@ -22,6 +22,7 @@ public abstract class Creature {
     protected int turnsToRegenerate;
     protected int turnsSinceRegeneration;
     protected int regenAmount;
+    protected int xpOnKill;
     protected boolean canDig;
     protected boolean alive;
     protected Random rand;
@@ -57,6 +58,7 @@ public abstract class Creature {
         canDig = false;
         visionDistance = 20;
         seesPlayer = false;
+        xpOnKill = 1;
         initializeVisionArrays();
     }
 
@@ -85,7 +87,7 @@ public abstract class Creature {
 
     public void FOV(int distance) {
         resetCurrentVision();
-        
+
         for (int i = 0; i < 360; i += 4) // how many rays of light
         {
             xx = (float) Math.cos((float) i * 0.01745f);
@@ -95,7 +97,6 @@ public abstract class Creature {
     }
 
     void DoFov(float x, float y, int distance) {
- 
 
         ox = (float) this.x + 0.5f;
         oy = (float) this.y + 0.5f;
@@ -125,7 +126,7 @@ public abstract class Creature {
     }
 
     void DoFov(float x, float y) {
-        
+
         ox = (float) this.x + 0.5f;
         oy = (float) this.y + 0.5f;
         for (int i = 0; i < visionDistance; i++) {
@@ -190,7 +191,7 @@ public abstract class Creature {
     }
 
     protected void attack(Creature attacker, Creature target) {
-        int incDamage = rand.nextInt(attack) + 1;
+        int incDamage = attack / 4 + rand.nextInt(attack * 3 / 4) + 1;
         target.hit(attacker, incDamage);
     }
 
@@ -247,6 +248,9 @@ public abstract class Creature {
         if (currentHealth < 0) {
             die();
             messages.kill(this, attacker);
+            if (attacker.isPlayer()) {
+                player.addExp(this.xpOnKill);
+            }
         }
 
     }
@@ -360,4 +364,7 @@ public abstract class Creature {
         return inventory;
     }
 
+    public boolean isPlayer() {
+        return this instanceof Player;
+    }
 }

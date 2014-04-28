@@ -17,9 +17,10 @@ public class MiningGnome extends HostileCreature {
         super(tileMap, player, messages);
         this.canDig = true;
         this.glyph = 'g';
-        this.attack = 5;
+        this.attack = 8;
         this.defense = 2;
         this.maxHealth = 10;
+        this.xpOnKill = 3;
         this.currentHealth = maxHealth;
         this.color = new Color(142, 88, 60);
         this.name = "Gnome Miner";

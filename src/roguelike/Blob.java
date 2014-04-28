@@ -10,7 +10,7 @@ public class Blob extends HostileCreature {
 
     public Blob(Tile[][] tileMap, Player player, Messages messages) {
         super(tileMap, player, messages);
-        this.attack = 4;
+        this.attack = 6;
         this.defense = 1;
         this.color = Color.YELLOW;
         this.glyph = 'b';

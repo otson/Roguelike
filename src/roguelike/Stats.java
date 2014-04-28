@@ -36,6 +36,8 @@ public class Stats extends JPanel {
     private JPanel secondRow;
     private JPanel thirdRow;
     private JTextField playerName;
+    private JTextField level;
+    private JTextField exp;
 
     Stats(Player player) {
         this.player = player;
@@ -49,23 +51,39 @@ public class Stats extends JPanel {
         hpBar.setForeground(Color.BLACK);
         this.add(hpBar);
         this.setForeground(Color.WHITE);
-        
-        secondRow = new JPanel(new GridLayout(1,8));
+
+        secondRow = new JPanel(new GridLayout(1, 8));
         secondRow.setBackground(Color.BLACK);
         secondRow.setBorder(null);
-        thirdRow = new JPanel(new GridLayout(1,8));
+        thirdRow = new JPanel(new GridLayout(1, 8));
         thirdRow.setBackground(Color.BLACK);
         thirdRow.setBorder(null);
         this.add(secondRow);
         this.add(thirdRow);
-        
+
         playerName = new JTextField();
         playerName.setFont(STATS_FONT);
         playerName.setBorder(null);
         playerName.setBackground(bgColor);
         playerName.setForeground(fgColor);
-        
+
         secondRow.add(playerName);
+
+        level = new JTextField();
+        level.setFont(STATS_FONT);
+        level.setBorder(null);
+        level.setBackground(bgColor);
+        level.setForeground(fgColor);
+
+        secondRow.add(level);
+
+        exp = new JTextField();
+        exp.setFont(STATS_FONT);
+        exp.setBorder(null);
+        exp.setBackground(bgColor);
+        exp.setForeground(fgColor);
+
+        secondRow.add(exp);
     }
 
     @Override
@@ -76,9 +94,11 @@ public class Stats extends JPanel {
         og.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         og.setFont(STATS_FONT);
         drawHP(og);
-        
+
         og.setColor(Color.WHITE);
         playerName.setText(player.name);
+        level.setText("Level: " + player.xpLevel);
+        exp.setText("XP: " + player.currentExp + "/" + player.expToLevel);
         g.drawImage(oi, 0, 0, this);
 
     }
@@ -95,7 +115,7 @@ public class Stats extends JPanel {
     }
 
     private void drawHP(Graphics2D og) {
-        hpBar.setText("HP: "+player.currentHealth+"/"+player.maxHealth);
+        hpBar.setText("HP: " + player.currentHealth + "/" + player.maxHealth);
         double scale = (double) player.currentHealth / (double) player.maxHealth;
         //System.out.println("scale: "+scale);
         //System.out.println("r: "+((int)Math.max(scale / 100, 1)*255)+" g: "+((int)(1-Math.max(scale / 100, 1))*255));

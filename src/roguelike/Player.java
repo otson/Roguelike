@@ -17,17 +17,23 @@ public class Player extends Creature {
 
     private boolean eyesOpen;
     private MapCreator mapCreator;
+    protected int currentExp;
+    protected int expToLevel;
+    protected int xpLevel;
 
     public Player(Tile[][] tileMap, Player player, Messages messages, MapCreator mapCreator) {
         super(tileMap, player, messages);
         this.mapCreator = mapCreator;
         this.glyph = '@';
-        this.attack = 1000;
+        this.attack = 12;
         this.defense = 2;
-        this.maxHealth = 1000000;
+        this.maxHealth = 10;
         this.movesPerTurn = 2;
         this.turnsToRegenerate = 2;
         this.regenAmount = 1;
+        this.currentExp = 0;
+        this.expToLevel = 20;
+        this.xpLevel = 1;
         this.movesLeft = this.movesPerTurn;
         this.currentHealth = this.maxHealth;
         this.color = Color.WHITE;
@@ -229,5 +235,21 @@ public class Player extends Creature {
             messages.noDoor();
         }
         action();
+    }
+
+    public void addExp(int amount) {
+        this.currentExp += amount;
+        if (currentExp >= expToLevel) {
+            levelUp();
+        }
+    }
+
+    private void levelUp() {
+        this.xpLevel++;
+        expToLevel = Math.round((expToLevel * 2 + expToLevel / 2 + expToLevel / 4) / 10) * 10;
+        this.maxHealth += rand.nextInt(5)+4;
+        this.currentHealth += maxHealth/4;
+        if(currentHealth > maxHealth)
+            currentHealth = maxHealth;
     }
 }

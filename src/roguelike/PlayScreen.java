@@ -242,6 +242,9 @@ class PlayScreen extends JPanel implements KeyListener, Runnable {
             case KeyEvent.VK_I:
                 toggleInventory();
                 break;
+            case KeyEvent.VK_E:
+                player.addExp(1);
+                break;
         }
 
         if (player.getMovesLeft() == 0) {
