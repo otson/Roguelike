@@ -35,8 +35,8 @@ public class Map extends JPanel {
     private BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     private int tileWidth;
     private int tileHeight;
-    private int VISIBLE_TILES_X = 80;
-    private int VISIBLE_TILES_Y = 24;
+    private int VISIBLE_TILES_X = 160;
+    private int VISIBLE_TILES_Y = 48;
     private int counter = 0;
     private int playerX;
     private int playerY;

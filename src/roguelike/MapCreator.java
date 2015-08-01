@@ -1,7 +1,11 @@
 package roguelike;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import roguelike.mapobjects.Door;
 import roguelike.mapobjects.RoomFloor;
 import roguelike.mapobjects.walls.DigWall;
@@ -25,7 +29,7 @@ import roguelike.mapobjects.walls.SolidWall;
  */
 public class MapCreator {
 
-    private final int WALL_PERCENTAGE = 45;
+    private final int WALL_PERCENTAGE = 50;
     private int width;
     private int height;
     private Random rand = new Random();
@@ -34,7 +38,7 @@ public class MapCreator {
     MapCreator(int level, int width, int height) {
         this.width = width;
         this.height = height;
-        createLevels(10);
+        createLevels(1);
 
     }
 
@@ -53,6 +57,14 @@ public class MapCreator {
             }
         }
     }
+    
+    private void generateClearBorders(Tile[][] tileMap) {
+        for (int x = 0; x < tileMap.length; x++) {
+            for (int y = 0; y < tileMap[x].length; y++) {
+                tileMap[x][y] = new Tile(new Floor(), x, y);
+            }
+        }
+    }
 
     private void generateRandomness(Tile[][] tileMap, int wallPercentage) {
         for (int x = 1; x + 1 < tileMap.length; x++) {
@@ -68,7 +80,7 @@ public class MapCreator {
         }
     }
 
-    private void generateCaves(Tile[][] tileMap, int rounds, int birth, int alive) {
+    private void generateCaves(Tile[][] tileMap, int rounds, int s, int b) {
         int[][] wallCount = new int[tileMap.length][tileMap[0].length];
         int count = 0;
         int times = 0;
@@ -107,12 +119,12 @@ public class MapCreator {
             for (int x = 1; x + 1 < tileMap.length; x++) {
                 for (int y = 1; y + 1 < tileMap[x].length; y++) {
                     if (tileMap[x][y].getMapObject().isWall()) {
-                        if (wallCount[x][y] < alive) {
+                        if (wallCount[x][y] < s) {
                             tileMap[x][y] = new Tile(new Floor(), x, y);
                         }
                     }
                     else if (!tileMap[x][y].getMapObject().isWall()) {
-                        if (wallCount[x][y] >= birth) {
+                        if (wallCount[x][y] >= b) {
                             tileMap[x][y] = new Tile(new DigWall(), x, y);
                         }
                     }
@@ -325,12 +337,37 @@ public class MapCreator {
         Tile[][] tileMap = new Tile[width][height];
         generateBorders(tileMap);
         generateRandomness(tileMap, WALL_PERCENTAGE);
-        generateCaves(tileMap, 25, 5, 4);
+        generateCaves(tileMap, 25, 4, 5); // generations, survive >, birth >=
         //addRooms(tileMap, 100);
-        addStairs(tileMap);
+        //addStairs(tileMap);
         finalizeWalls(tileMap);
+        //generateClearBorders(tileMap);
         levels.put(level, tileMap);
         System.out.println(levels.size());
+        saveToFile(tileMap, levels.size());
+    }
+
+    private void saveToFile(Tile[][] tileMap, int number)
+    {
+        String content = "";
+        for(int i = 0; i< tileMap[0].length;i++){
+            String line = "";
+            for(int j = 0; j< tileMap.length;j++){
+                line = line.concat(""+tileMap[j][i].getMapObject().getMapCharacter());
+            }
+            line += "\n";
+            content += line;
+            System.out.println(i+". line done");
+        }
+        try
+        {
+            PrintWriter out = new PrintWriter(""+number+".txt");
+            out.write(content);
+            out.close();
+        } catch (FileNotFoundException ex)
+        {
+            Logger.getLogger(MapCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

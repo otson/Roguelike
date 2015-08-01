@@ -14,6 +14,8 @@ public class DigWallHorizontal extends DigWall{
 
     public DigWallHorizontal() {
         this.mapCharacter = '│';
+        if(DigWall.SIMPLE_WALL)
+            this.mapCharacter = DigWall.SIMPLE_WALL_CHAR;
     }
     
 }

@@ -39,7 +39,6 @@ public abstract class Creature {
     protected int level;
     protected int[] inventory = new int[PlayScreen.ITEM_LIST.size()];
     protected float ox, oy, xx, yy;
-    protected static CosSineTable table = new CosSineTable();
 
     public Creature(Tile[][] tileMap, Player player, Messages messages) {
         this.tileMap = tileMap;
@@ -367,4 +366,5 @@ public abstract class Creature {
     public boolean isPlayer() {
         return this instanceof Player;
     }
+
 }
