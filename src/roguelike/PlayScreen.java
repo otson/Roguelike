@@ -1,7 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright (C) 2017 Otso Nuortimo
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package roguelike;
 
@@ -26,13 +37,12 @@ class PlayScreen extends JPanel implements KeyListener, Runnable {
     private final int MAP_WIDTH = 100;
     private final int MAP_HEIGHT = 30;
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);
-    private MapCreator mapCreator;
+    private final MapCreator mapCreator;
     private CreatureFactory creatureFactory;
     private Player player;
     private Messages messages;
     private Map map;
     private Stats stats;
-    private int startLevel = 1;
     private boolean digEvent = false;
     private boolean doorEvent = false;
     private InventoryScreen inventoryScreen;
@@ -44,7 +54,7 @@ class PlayScreen extends JPanel implements KeyListener, Runnable {
     public PlayScreen() {
         thread = new Thread(this);
         initItemList();
-        mapCreator = new MapCreator(startLevel, MAP_WIDTH, MAP_HEIGHT);
+        mapCreator = new MapCreator(MapCreator.STARTING_LEVEL, MAP_WIDTH, MAP_HEIGHT);
         initMessages();
         addPlayer();
         initStats();
@@ -62,8 +72,8 @@ class PlayScreen extends JPanel implements KeyListener, Runnable {
     }
 
     private void addPlayer() {
-        player = new Player(mapCreator.getLevels().get(startLevel), player, messages, mapCreator);
-        player.setLevel(startLevel);
+        player = new Player(mapCreator.getLevels().get(MapCreator.STARTING_LEVEL), player, messages, mapCreator);
+        player.setMapLevel(MapCreator.STARTING_LEVEL);
     }
 
     private void addContent() {
@@ -89,7 +99,9 @@ class PlayScreen extends JPanel implements KeyListener, Runnable {
     @Override
     public void keyPressed(KeyEvent e) {
         if (playIsActive) {
-            respondToPlayInput(e);
+            // If player has died take no more input that game exit
+            if(player.isAlive() || e.getKeyCode() == KeyEvent.VK_ESCAPE)
+                respondToPlayInput(e);
         }
         else if (inventoryIsActive) {
             respondToInventoryInput(e);
@@ -267,13 +279,13 @@ class PlayScreen extends JPanel implements KeyListener, Runnable {
     }
 
     private void turnEnd() {
-        creatureFactory.setCreatureLevel(player.level);
+        creatureFactory.setCreatureLevel(player.mapLevel);
         creatureFactory.ActMonsters();
         turnStart();
     }
 
     private void turnStart() {
-        creatureFactory.setCreatureLevel(player.level);
+        creatureFactory.setCreatureLevel(player.mapLevel);
         creatureFactory.SpawnCreatures();
         creatureFactory.resetMoves();
         player.resetMoves();

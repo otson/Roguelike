@@ -1,3 +1,19 @@
+/* 
+ * Copyright (C) 2017 Otso Nuortimo
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package roguelike;
 
 import java.util.HashMap;
@@ -30,19 +46,20 @@ public class MapCreator {
     private int height;
     private Random rand = new Random();
     private HashMap<Integer, Tile[][]> levels = new HashMap<>();
+    
+    private final int LEVEL_COUNT = 10;
+    public static final int STARTING_LEVEL = 0;
 
     MapCreator(int level, int width, int height) {
         this.width = width;
         this.height = height;
-        createLevels(10);
+        createLevels();
 
     }
 
-    private void createLevels(int count) {
-        int i = count / 2 - count;
-        while (i < count / 2) {
-            createLevel(i);
-            i++;
+    private void createLevels() {
+        for (int i = STARTING_LEVEL; i< LEVEL_COUNT; i++) {
+            createLevel(-i);
         }
     }
 
@@ -284,37 +301,39 @@ public class MapCreator {
 
     }
 
-    private void addStairs(Tile[][] tileMap) {
+    private void addStairs(Tile[][] tileMap, boolean up, boolean down) {
         boolean notSet = true;
         int count = 0;
-        while (notSet) {
-            count++;
-            int xx = rand.nextInt(tileMap.length - 1) + 1;
-            int yy = rand.nextInt(tileMap[xx].length - 1) + 1;
-            if (tileMap[xx][yy].isNotOccupied() && tileMap[xx][yy].isWalkable()) {
-                tileMap[xx][yy].setMapObject(new UpStairs());
-                notSet = false;
+        if(up)
+            while (notSet) {
+                count++;
+                int xx = rand.nextInt(tileMap.length - 1) + 1;
+                int yy = rand.nextInt(tileMap[xx].length - 1) + 1;
+                if (tileMap[xx][yy].isNotOccupied() && tileMap[xx][yy].isWalkable()) {
+                    tileMap[xx][yy].setMapObject(new UpStairs());
+                    notSet = false;
+                }
+                else if (count == 100) {
+                    System.out.println("Failed to place upstairs.");
+                    notSet = false;
+                }
             }
-            else if (count == 100) {
-                System.out.println("Failed to place upstairs.");
-                notSet = false;
-            }
-        }
         notSet = true;
         count = 0;
-        while (notSet) {
-            count++;
-            int xx = rand.nextInt(tileMap.length - 1) + 1;
-            int yy = rand.nextInt(tileMap[xx].length - 1) + 1;
-            if (tileMap[xx][yy].isNotOccupied() && tileMap[xx][yy].isWalkable()) {
-                tileMap[xx][yy].setMapObject(new DownStairs());
-                notSet = false;
+        if(down)
+            while (notSet) {
+                count++;
+                int xx = rand.nextInt(tileMap.length - 1) + 1;
+                int yy = rand.nextInt(tileMap[xx].length - 1) + 1;
+                if (tileMap[xx][yy].isNotOccupied() && tileMap[xx][yy].isWalkable()) {
+                    tileMap[xx][yy].setMapObject(new DownStairs());
+                    notSet = false;
+                }
+                else if (count == 100) {
+                    System.out.println("Failed to place downstairs.");
+                    notSet = false;
+                }
             }
-            else if (count == 100) {
-                System.out.println("Failed to place downstairs.");
-                notSet = false;
-            }
-        }
     }
 
     public HashMap<Integer, Tile[][]> getLevels() {
@@ -327,7 +346,15 @@ public class MapCreator {
         generateRandomness(tileMap, WALL_PERCENTAGE);
         generateCaves(tileMap, 25, 5, 4);
         //addRooms(tileMap, 100);
-        addStairs(tileMap);
+        boolean upstairs = true;
+        boolean downstairs = true;
+        
+        // Down add both stairs to top and bottom levels
+        if (level == STARTING_LEVEL)
+            upstairs = false;
+        if(level == STARTING_LEVEL - (LEVEL_COUNT -1))
+            downstairs = false;
+        addStairs(tileMap, upstairs, downstairs);
         finalizeWalls(tileMap);
         levels.put(level, tileMap);
         System.out.println(levels.size());
