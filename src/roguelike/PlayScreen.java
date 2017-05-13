@@ -123,6 +123,9 @@ class PlayScreen extends JPanel implements KeyListener, Runnable {
                 messages.doorDirection();
                 doorEvent = true;
                 break;
+            case KeyEvent.VK_H:
+                messages.getControls();
+                break;
 
             case KeyEvent.VK_NUMPAD7:
                 if (digEvent) {

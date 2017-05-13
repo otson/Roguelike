@@ -85,13 +85,18 @@ public class Messages extends JPanel {
 
     private void setInitialtext() {
         t("Welcome to Roguelike!");
-        t("Controls: numpad to move, 'd' to dig, ',' to pick up items, 'i' to open inventory, yp and down arrows keys to use stairs.");
+        getControls();
+        t("To get the list of controls later press 'h'.");
     }
 
     private void t(String message) {
         old.setText(stale.getText());
         stale.setText(fresh.getText());
         fresh.setText(message);
+    }
+    
+    public void getControls(){
+        t("Controls: numpad to move, 'd' to dig, ',' to pick up items, 'i' to open inventory, up and down arrows keys to use stairs.");
     }
 
     public void digDirection() {
