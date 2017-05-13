@@ -29,5 +29,7 @@ Roguelike with ASCII-graphics. No longer in active development.
 
 Easiest way to give the game a try is to run the executable Roguelike.jar from the runnable folder.
 
+
 Copyright (C) 2017 Otso Nuortimo
+
 Released under GNU General Public License.
