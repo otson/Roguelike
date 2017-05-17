@@ -1,6 +1,8 @@
 # Roguelike
 Roguelike with ASCII-graphics. No longer in active development.
 
+![Screenshot of the gameplay. Player battling monsters.](https://raw.githubusercontent.com/Jyendor/Roguelike/master/src/resources/roguelike.png)
+
 ## Features ##
 
 ### Map ###
