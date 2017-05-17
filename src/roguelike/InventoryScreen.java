@@ -25,7 +25,6 @@ class InventoryScreen extends JPanel {
     private Image oi = null;
     private final Font INVENTORY_FONT = new Font("Helvetica", Font.BOLD, 16);
     private Player player;
-    private String letters = "abcdefghijklmnopqrstuvwxyz";
 
     public InventoryScreen(Player player) {
         this.player = player;

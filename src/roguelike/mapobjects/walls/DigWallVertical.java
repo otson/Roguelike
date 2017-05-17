@@ -14,8 +14,6 @@ public class DigWallVertical extends DigWall{
 
     public DigWallVertical() {
         this.mapCharacter = '─';
-        if(DigWall.SIMPLE_WALL)
-            this.mapCharacter = DigWall.SIMPLE_WALL_CHAR;
     }
     
     

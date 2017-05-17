@@ -14,8 +14,6 @@ public class DigWallCross extends DigWall{
 
     public DigWallCross() {
         this.mapCharacter = '┼';
-        if(DigWall.SIMPLE_WALL)
-            this.mapCharacter = DigWall.SIMPLE_WALL_CHAR;
     }
     
 }

@@ -14,9 +14,6 @@ import java.awt.Color;
  * @author otso
  */
 public class DigWall extends Wall{
-    
-    public static boolean SIMPLE_WALL = true;
-    public static char SIMPLE_WALL_CHAR = 'X';
 
     public DigWall() {
         this.diggable = true;

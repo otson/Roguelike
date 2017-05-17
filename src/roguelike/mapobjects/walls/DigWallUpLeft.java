@@ -14,8 +14,6 @@ public class DigWallUpLeft extends DigWall{
 
     public DigWallUpLeft() {
         this.mapCharacter = '┌';
-        if(DigWall.SIMPLE_WALL)
-            this.mapCharacter = DigWall.SIMPLE_WALL_CHAR;
     }
     
 }

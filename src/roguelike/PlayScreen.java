@@ -23,8 +23,8 @@ class PlayScreen extends JPanel implements KeyListener, Runnable {
     public static final HashMap<Integer, Item> ITEM_LIST = new HashMap<>();
 
     private final int MESSAGES_HEIGHT = 60;
-    private final int MAP_WIDTH = 1024;
-    private final int MAP_HEIGHT = 768;
+    private final int MAP_WIDTH = 100;
+    private final int MAP_HEIGHT = 30;
     private final Font MESSAGES_FONT = new Font("Helvetica", Font.PLAIN, 14);
     private MapCreator mapCreator;
     private CreatureFactory creatureFactory;
@@ -259,84 +259,7 @@ class PlayScreen extends JPanel implements KeyListener, Runnable {
             case KeyEvent.VK_I:
                 toggleInventory();
                 break;
-            case KeyEvent.VK_A:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_B:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_C:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_D:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_E:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_F:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_G:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_H:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_J:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_K:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_L:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_M:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_N:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_O:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_P:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_Q:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_R:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_S:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_T:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_U:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_V:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_W:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_X:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_Y:
-                toggleInventory();
-                break;
-            case KeyEvent.VK_Z:
-                toggleInventory();
-                break;
-
         }
-
     }
 
     @Override

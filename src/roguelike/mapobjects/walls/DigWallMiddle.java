@@ -14,8 +14,6 @@ public class DigWallMiddle extends DigWall{
 
     public DigWallMiddle() {
         this.mapCharacter = ' ';
-        if(DigWall.SIMPLE_WALL)
-            this.mapCharacter = DigWall.SIMPLE_WALL_CHAR;
     }
     
     
