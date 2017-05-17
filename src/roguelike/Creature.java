@@ -1,3 +1,19 @@
+/* 
+ * Copyright (C) 2017 Otso Nuortimo
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package roguelike;
 
 import java.awt.Color;
@@ -36,7 +52,7 @@ public abstract class Creature {
     protected boolean seesPlayer;
     protected int lastSeenPlayerX = -1;
     protected int lastSeenPlayerY = -1;
-    protected int level;
+    protected int mapLevel;
     protected int[] inventory = new int[PlayScreen.ITEM_LIST.size()];
     protected float ox, oy, xx, yy;
     protected static CosSineTable table = new CosSineTable();
@@ -62,6 +78,10 @@ public abstract class Creature {
         initializeVisionArrays();
     }
 
+    public int getMapLevel() {
+        return mapLevel;
+    }
+    
     protected void addToMap() {
         boolean notSet = true;
         int count = 0;
@@ -245,7 +265,7 @@ public abstract class Creature {
         }
         this.currentHealth -= damage;
         messages.hit(this, attacker, damage);
-        if (currentHealth < 0) {
+        if (currentHealth <= 0) {
             die();
             messages.kill(this, attacker);
             if (attacker.isPlayer()) {
@@ -306,9 +326,10 @@ public abstract class Creature {
         }
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setMapLevel(int mapLevel) {
+        this.mapLevel = mapLevel;
     }
+    
 
     private void regenerate() {
         if (this.currentHealth < this.maxHealth) {

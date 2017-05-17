@@ -1,3 +1,19 @@
+/* 
+ * Copyright (C) 2017 Otso Nuortimo
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package roguelike;
 
 import java.awt.Color;
@@ -20,7 +36,8 @@ public class Player extends Creature {
     protected int currentExp;
     protected int expToLevel;
     protected int xpLevel;
-
+    protected int currentMapLevel;
+    
     public Player(Tile[][] tileMap, Player player, Messages messages, MapCreator mapCreator) {
         super(tileMap, player, messages);
         this.mapCreator = mapCreator;
@@ -42,6 +59,7 @@ public class Player extends Creature {
         this.eyesOpen = true;
         this.visionDistance = 80;
         this.mapCreator = mapCreator;
+        
 
         addToMap();
     }
@@ -182,18 +200,18 @@ public class Player extends Creature {
     }
 
     private void useStairs(int is) {
-        if (mapCreator.getLevels().containsKey(level + is)) {
+        if (mapCreator.getLevels().containsKey(mapLevel + is)) {
 
-            this.tileMap = mapCreator.getLevels().get(level + is);
+            this.tileMap = mapCreator.getLevels().get(mapLevel + is);
             if (is > 0) { // going up
                 System.out.println("going up");
                 for (int xx = 0; xx < tileMap.length; xx++) {
                     for (int yy = 0; yy < tileMap[xx].length; yy++) {
                         if (tileMap[xx][yy].hasDownStairs()) {
-                            mapCreator.getLevels().get(level)[x][y].setCreature(null);
+                            mapCreator.getLevels().get(mapLevel)[x][y].setCreature(null);
                             x = xx;
                             y = yy;
-                            level++;
+                            mapLevel++;
                             System.out.println("placed downstair location. x, y: " + x + "," + y);
                             tileMap[xx][yy].setCreature(this);
                         }
@@ -205,10 +223,10 @@ public class Player extends Creature {
                 for (int xx = 0; xx < tileMap.length; xx++) {
                     for (int yy = 0; yy < tileMap[xx].length; yy++) {
                         if (tileMap[xx][yy].hasUpStairs()) {
-                            mapCreator.getLevels().get(level)[x][y].setCreature(null);
+                            mapCreator.getLevels().get(mapLevel)[x][y].setCreature(null);
                             x = xx;
                             y = yy;
-                            level--;
+                            mapLevel--;
                             System.out.println("placed upstair location. x, y: " + x + "," + y);
                             tileMap[xx][yy].setCreature(this);
                         }

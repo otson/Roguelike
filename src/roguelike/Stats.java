@@ -1,3 +1,19 @@
+/* 
+ * Copyright (C) 2017 Otso Nuortimo
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package roguelike;
 
 import java.awt.Color;
@@ -37,6 +53,7 @@ public class Stats extends JPanel {
     private JPanel thirdRow;
     private JTextField playerName;
     private JTextField level;
+    private JTextField mapLevel;
     private JTextField exp;
 
     Stats(Player player) {
@@ -84,6 +101,14 @@ public class Stats extends JPanel {
         exp.setForeground(fgColor);
 
         secondRow.add(exp);
+        
+        mapLevel = new JTextField("Map Level 6");
+        mapLevel.setFont(STATS_FONT);
+        mapLevel.setBorder(null);
+        mapLevel.setBackground(bgColor);
+        mapLevel.setForeground(fgColor);
+        
+        secondRow.add(mapLevel);
     }
 
     @Override
@@ -99,6 +124,7 @@ public class Stats extends JPanel {
         playerName.setText(player.name);
         level.setText("Level: " + player.xpLevel);
         exp.setText("XP: " + player.currentExp + "/" + player.expToLevel);
+        mapLevel.setText("Map Level: "+ player.getMapLevel());
         g.drawImage(oi, 0, 0, this);
 
     }
@@ -116,12 +142,15 @@ public class Stats extends JPanel {
 
     private void drawHP(Graphics2D og) {
         hpBar.setText("HP: " + player.currentHealth + "/" + player.maxHealth);
-        double scale = (double) player.currentHealth / (double) player.maxHealth;
+        int pHealth = player.currentHealth;
+        if(pHealth < 0)
+            pHealth = 0;
+        double scale = (double) pHealth / (double) player.maxHealth;
         //System.out.println("scale: "+scale);
         //System.out.println("r: "+((int)Math.max(scale / 100, 1)*255)+" g: "+((int)(1-Math.max(scale / 100, 1))*255));
         hpBarColor = new Color((int) (Math.abs(scale - 1) * 255), (int) ((scale) * 255), 0);
         og.setColor(hpBarColor);
-        og.fillRect(0, 0, (int) (hpBar.getWidth() * ((float) player.currentHealth / (float) player.maxHealth)), hpBar.getHeight());
+        og.fillRect(0, 0, (int) (hpBar.getWidth() * ((float) pHealth / (float) player.maxHealth)), hpBar.getHeight());
     }
 
 }
